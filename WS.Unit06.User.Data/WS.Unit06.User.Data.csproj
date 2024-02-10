@@ -19,4 +19,10 @@
     <Folder Include="util\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="data\database.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
