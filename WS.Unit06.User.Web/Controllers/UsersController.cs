@@ -20,7 +20,7 @@ namespace WS.Unit06.User.Web.Controllers
                 var modelo = _client.GetUserByIdAsync((int)id);
                 return View("CreateUsers", modelo.Result);
             }
-            return View();
+            return View("CreateUsers");
         }
 
         [HttpPost]
