@@ -9,7 +9,45 @@
 
 namespace WSClientToken
 {
+    using System.Runtime.Serialization;
     
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResponseCustom", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.util")]
+    public partial class ResponseCustom : object
+    {
+        
+        private int codeField;
+        
+        private string messageCustomField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int code
+        {
+            get
+            {
+                return this.codeField;
+            }
+            set
+            {
+                this.codeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string messageCustom
+        {
+            get
+            {
+                return this.messageCustomField;
+            }
+            set
+            {
+                this.messageCustomField = value;
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSClientToken.IAuthServices")]
@@ -17,10 +55,10 @@ namespace WSClientToken
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/authenticate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/authenticateResponse")]
-        System.Threading.Tasks.Task<string> authenticateAsync();
+        System.Threading.Tasks.Task<WSClientToken.ResponseCustom> authenticateAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/validate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/validateResponse")]
-        System.Threading.Tasks.Task<string> validateAsync();
+        System.Threading.Tasks.Task<WSClientToken.ResponseCustom> validateAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -73,12 +111,12 @@ namespace WSClientToken
         {
         }
         
-        public System.Threading.Tasks.Task<string> authenticateAsync()
+        public System.Threading.Tasks.Task<WSClientToken.ResponseCustom> authenticateAsync()
         {
             return base.Channel.authenticateAsync();
         }
         
-        public System.Threading.Tasks.Task<string> validateAsync()
+        public System.Threading.Tasks.Task<WSClientToken.ResponseCustom> validateAsync()
         {
             return base.Channel.validateAsync();
         }
