@@ -15,4 +15,8 @@
     <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WS.Unit06.User.Application\WS.Unit06.User.Application.csproj" />
+  </ItemGroup>
+
 </Project>

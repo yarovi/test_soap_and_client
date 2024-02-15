@@ -16,6 +16,7 @@ namespace WS.Unit06.User.Data.Service
 		public void UpdateUser(Users user);
 		[OperationContract]
 		public Users GetUserById(int id);
-
+		[OperationContract]
+		public Users GetUserByNameAndPassowrd(string name, string passowrd);
     }
 }

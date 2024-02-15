@@ -3,10 +3,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using SoapCore;
 using System.ServiceModel;
 using WS.Unit06.User.Data.Service;
+using WS.Unit06.User.Data.Service.impl;
 
 namespace WS.Unit06.User.Data
 {
-	public class Startup
+    public class Startup
 	{
 		public void ConfigureServices(IServiceCollection services)
 		{

@@ -6,6 +6,8 @@ namespace WS.Unit06.User.Application
     public interface IAuthServices
     {
         [OperationContract]
-        public string authenticate();   
+        public string authenticate();
+        [OperationContract]
+        public string validate();
     }
 }

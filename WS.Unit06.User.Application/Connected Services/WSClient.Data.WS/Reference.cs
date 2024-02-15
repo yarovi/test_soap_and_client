@@ -98,6 +98,9 @@ namespace WSClient.Data.WS
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/data/IDataServices/GetUserById", ReplyAction="http://ws.unit06.user/data/IDataServices/GetUserByIdResponse")]
         System.Threading.Tasks.Task<WSClient.Data.WS.Users> GetUserByIdAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/data/IDataServices/GetUserByNameAndPassowrd", ReplyAction="http://ws.unit06.user/data/IDataServices/GetUserByNameAndPassowrdResponse")]
+        System.Threading.Tasks.Task<WSClient.Data.WS.Users> GetUserByNameAndPassowrdAsync(string name, string passowrd);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -173,6 +176,11 @@ namespace WSClient.Data.WS
         public System.Threading.Tasks.Task<WSClient.Data.WS.Users> GetUserByIdAsync(int id)
         {
             return base.Channel.GetUserByIdAsync(id);
+        }
+        
+        public System.Threading.Tasks.Task<WSClient.Data.WS.Users> GetUserByNameAndPassowrdAsync(string name, string passowrd)
+        {
+            return base.Channel.GetUserByNameAndPassowrdAsync(name, passowrd);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

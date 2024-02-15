@@ -9,7 +9,7 @@ namespace WS.Unit06.User.Data
 optionsBuilder)
 		{
             //optionsBuilder.UseSqlite("Data Source=data/database.db");
-            var dbPath = Path.Combine(AppContext.BaseDirectory, "data", "database.sqlite");
+            var dbPath = Path.Combine(AppContext.BaseDirectory, "data", "database.db");
             optionsBuilder.UseSqlite($"Data Source={dbPath}");
         }
 		public DbSet<Users> Users { get; set; }

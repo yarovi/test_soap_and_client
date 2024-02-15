@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using SoapCore;
+using SoapCore.Extensibility;
 using System.IdentityModel.Tokens.Jwt;
 using System.ServiceModel;
+using WS.Unit06.User.Application.util;
 
 namespace WS.Unit06.User.Application
 {
@@ -15,10 +17,7 @@ namespace WS.Unit06.User.Application
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSoapCore();
 
-
-
-            // Agregar SOAP Core
-            services.AddSoapCore();
+            services.AddSoapServiceOperationTuner(new ServiceOperation());
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,8 +26,6 @@ namespace WS.Unit06.User.Application
             {
                 app.UseDeveloperExceptionPage();
             }
-
-
 
             app.UseSoapEndpoint<IApplicationServices>(
             "/ApplicationServices.svc",
