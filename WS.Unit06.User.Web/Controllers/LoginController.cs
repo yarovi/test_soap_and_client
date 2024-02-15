@@ -45,9 +45,9 @@ namespace WS.Unit06.User.Web.Controllers
 
                 var responseAuth = client.authenticateAsync().Result;
 
-                if (responseAuth != null && !string.IsNullOrEmpty(responseAuth))
+                if (responseAuth != null && responseAuth.code==200)
                 {
-                    HttpContext.Session.SetString("token", responseAuth);
+                    HttpContext.Session.SetString("token", responseAuth!.messageCustom);
 
                     Console.WriteLine("iniciando login ..!");
                     return RedirectToAction("Index", "Home");

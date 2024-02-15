@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using WS.Unit06.User.Application.util;
 
 namespace WS.Unit06.User.Application
 {
@@ -6,8 +7,8 @@ namespace WS.Unit06.User.Application
     public interface IAuthServices
     {
         [OperationContract]
-        public string authenticate();
+        public ResponseCustom authenticate();
         [OperationContract]
-        public string validate();
+        public ResponseCustom validate();
     }
 }
