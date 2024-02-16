@@ -22,5 +22,7 @@ namespace WS.Unit06.User.Application
 		[OperationContract]
 		public UserDTO GetUserById(int id);
 
+		[OperationContract]
+		public void DeleteUser(int id);
     }
 }

@@ -65,5 +65,11 @@ namespace WS.Unit06.User.Application
             IDataServices dataws = new DataServicesClient();
             dataws.UpdateUserAsync(MapDTOToUser(userDTO));
         }
+
+		public void DeleteUser(int id)
+		{
+            IDataServices dataws = new DataServicesClient();
+			dataws.DeleteUserAsync(id);
+        }
     }
 }

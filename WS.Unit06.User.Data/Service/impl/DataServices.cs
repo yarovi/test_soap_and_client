@@ -22,6 +22,21 @@ namespace WS.Unit06.User.Data.Service.impl
             }
         }
 
+        public void DeleteUser(int id)
+        {
+            using (DAOFactory factory = new DAOFactory())
+            {
+                var currentUser = factory.UserDAO.All().
+                    FirstOrDefault(p => p.Id == id);
+
+                if (currentUser == null)
+                    throw new FaultException(
+                        new FaultReason("The user not exists!!!"),
+                        new FaultCode("400"), "");
+                factory.UserDAO.Remove(currentUser);
+            }
+        }
+
         public Users GetOneUser(string name)
         {
             using (DAOFactory factory = new DAOFactory())

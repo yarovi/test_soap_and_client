@@ -101,6 +101,9 @@ namespace WSClient.Data.WS
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/data/IDataServices/GetUserByNameAndPassowrd", ReplyAction="http://ws.unit06.user/data/IDataServices/GetUserByNameAndPassowrdResponse")]
         System.Threading.Tasks.Task<WSClient.Data.WS.Users> GetUserByNameAndPassowrdAsync(string name, string passowrd);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/data/IDataServices/DeleteUser", ReplyAction="http://ws.unit06.user/data/IDataServices/DeleteUserResponse")]
+        System.Threading.Tasks.Task DeleteUserAsync(int id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -181,6 +184,11 @@ namespace WSClient.Data.WS
         public System.Threading.Tasks.Task<WSClient.Data.WS.Users> GetUserByNameAndPassowrdAsync(string name, string passowrd)
         {
             return base.Channel.GetUserByNameAndPassowrdAsync(name, passowrd);
+        }
+        
+        public System.Threading.Tasks.Task DeleteUserAsync(int id)
+        {
+            return base.Channel.DeleteUserAsync(id);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

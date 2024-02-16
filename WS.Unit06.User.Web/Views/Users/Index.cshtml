@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Lista de Usuarios</h1>
 
 @foreach (var user in Model)
 {
     <div>
-        <h4>UserDTO</h4>
+        @* <h4>UserDTO</h4 >*@
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
@@ -28,13 +28,14 @@
                 @Html.DisplayNameFor(model => user.Password)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => user.Password)
+                ********
             </dd>
         </dl>
     </div>
     <div>
-        @Html.ActionLink("Edit", "ManageUser", new { id = user.Id }) |
-        <a asp-action="Index">Back to List</a>
+        @Html.ActionLink("Modificar", "ManageUser", new { id = user.Id }) |
+        @Html.ActionLink("Eliminar", "Delete", new { id = user.Id })
+        @* <a asp-action="Index">Back to List</a> *@
     </div>
 }
 

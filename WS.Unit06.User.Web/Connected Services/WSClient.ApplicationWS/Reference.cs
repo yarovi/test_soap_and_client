@@ -98,6 +98,9 @@ namespace WSClient.ApplicationWS
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/application/IApplicationServices/GetUserById", ReplyAction="http://ws.unit06.user/application/IApplicationServices/GetUserByIdResponse")]
         System.Threading.Tasks.Task<WSClient.ApplicationWS.UserDTO> GetUserByIdAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/application/IApplicationServices/DeleteUser", ReplyAction="http://ws.unit06.user/application/IApplicationServices/DeleteUserResponse")]
+        System.Threading.Tasks.Task DeleteUserAsync(int id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -173,6 +176,11 @@ namespace WSClient.ApplicationWS
         public System.Threading.Tasks.Task<WSClient.ApplicationWS.UserDTO> GetUserByIdAsync(int id)
         {
             return base.Channel.GetUserByIdAsync(id);
+        }
+        
+        public System.Threading.Tasks.Task DeleteUserAsync(int id)
+        {
+            return base.Channel.DeleteUserAsync(id);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

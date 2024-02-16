@@ -40,6 +40,7 @@ namespace WS.Unit06.User.Web.Controllers
                 if (user.Id != 0)
                 {
                     _client.UpdateUserAsync(user);
+                    return RedirectToAction("Index", "Users");
                 }
                 else
                 {
@@ -52,6 +53,12 @@ namespace WS.Unit06.User.Web.Controllers
         public IActionResult Register()
         {
             return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _client.DeleteUserAsync(id);
+            return RedirectToAction("Index", "Users");
         }
     }
 }

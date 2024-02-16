@@ -18,5 +18,7 @@ namespace WS.Unit06.User.Data.Service
 		public Users GetUserById(int id);
 		[OperationContract]
 		public Users GetUserByNameAndPassowrd(string name, string passowrd);
+        [OperationContract]
+        public void DeleteUser(int id);
     }
 }
