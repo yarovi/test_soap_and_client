@@ -7,20 +7,29 @@ namespace WS.Unit06.User.Web.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationServicesClient _client;
-
         public UsersController() { _client = new ApplicationServicesClient(); }
         public IActionResult Index()
         {
+            var token = HttpContext.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+                return RedirectToAction("Error", "Home");
             return View(_client.getUsersAsync().Result);
         }
         public IActionResult ManageUser(int? id)
         {
-            if (id != null)
+            var token = HttpContext.Session.GetString("token");
+
+            if (string.IsNullOrEmpty(token))
+                return RedirectToAction("Error", "Home");
+            else
             {
-                var modelo = _client.GetUserByIdAsync((int)id);
-                return View("CreateUsers", modelo.Result);
+                if (id != null)
+                {
+                    var modelo = _client.GetUserByIdAsync((int)id);
+                    return View("CreateUsers", modelo.Result);
+                }
+                return View("CreateUsers");
             }
-            return View("CreateUsers");
         }
 
         [HttpPost]
@@ -36,19 +45,13 @@ namespace WS.Unit06.User.Web.Controllers
                 {
                     _client.CreateUserAsync(user);
                 }
-                //return RedirectToAction("Index"); // Redirigir a la página de índice después de crear o editar el usuario
-
             }
-            return RedirectToAction("Index");
-        }
+			return RedirectToAction("startLogin", "Login");
+		}
 
-        //Login
         public IActionResult Register()
         {
             return View();
         }
-
-       
-
     }
 }

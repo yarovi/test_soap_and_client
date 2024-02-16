@@ -33,8 +33,6 @@ namespace WS.Unit06.User.Web.Controllers
             var client = new AuthServicesClient();
             using (var scope = new OperationContextScope(client.InnerChannel))
             {
-                //var emailHeader = MessageHeader.CreateHeader("username", "", username);
-               // var passwordHeader = MessageHeader.CreateHeader("password", "", pwd);
 
                 HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
                 httpRequestProperty.Headers["username"] = username;
@@ -61,9 +59,13 @@ namespace WS.Unit06.User.Web.Controllers
         }
 		public IActionResult createAccount()
 		{
-
 			return View();
 		}
-	}
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("token");
+            return RedirectToAction("StartLogin", "Login"); 
+        }
+    }
 	
 }
