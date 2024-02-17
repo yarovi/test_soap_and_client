@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace WS.Unit06.User.Application.util
@@ -42,9 +40,9 @@ namespace WS.Unit06.User.Application.util
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = key,
-                ValidateIssuer = false, // Puedes ajustar esto según tus necesidades
-                ValidateAudience = false, // Puedes ajustar esto según tus necesidades
-                ClockSkew = TimeSpan.Zero // No se permite desfase en el tiempo
+                ValidateIssuer = false, 
+                ValidateAudience = false, 
+                ClockSkew = TimeSpan.Zero 
             };
 
             try

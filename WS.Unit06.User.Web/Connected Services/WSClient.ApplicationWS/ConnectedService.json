@@ -11,6 +11,7 @@
       "*, WSClient.ApplicationWS"
     ],
     "references": [
+      "BCrypt.Net-Next, {BCrypt.Net-Next, 4.0.3}",
       "C:\\Users\\Yasmani\\source\\repos\\WS.Unit06.User\\WS.Unit06.User.Web\\bin\\Debug\\net7.0\\WS.Unit06.User.Application.dll",
       "dotnet-aspnet-codegenerator-design, {Microsoft.VisualStudio.Web.CodeGeneration.Design, 7.0.11}",
       "Humanizer, {Humanizer.Core, 2.14.1}",
@@ -104,6 +105,7 @@
       "NuGet.ProjectModel, {NuGet.ProjectModel, 6.6.1}",
       "NuGet.Protocol, {NuGet.Protocol, 6.6.1}",
       "NuGet.Versioning, {NuGet.Versioning, 6.6.1}",
+      "RestSharp, {RestSharp, 110.2.0}",
       "SoapCore, {SoapCore, 1.1.0.42}",
       "SQLitePCLRaw.batteries_v2, {SQLitePCLRaw.bundle_e_sqlite3, 2.1.4}",
       "SQLitePCLRaw.core, {SQLitePCLRaw.core, 2.1.4}",
@@ -178,7 +180,7 @@
       "System.Text.Encoding.CodePages, {System.Text.Encoding.CodePages, 6.0.0}",
       "System.Text.Encoding.Extensions, {System.Text.Encoding.Extensions, 4.3.0}",
       "System.Text.Encodings.Web, {System.Text.Encodings.Web, 7.0.0}",
-      "System.Text.Json, {System.Text.Json, 7.0.0}",
+      "System.Text.Json, {System.Text.Json, 7.0.2}",
       "System.Text.RegularExpressions, {System.Text.RegularExpressions, 4.3.0}",
       "System.Threading, {System.Threading, 4.3.0}",
       "System.Threading.Tasks, {System.Threading.Tasks, 4.3.0}",

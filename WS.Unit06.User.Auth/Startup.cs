@@ -1,20 +1,20 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using SoapCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SoapCore;
-using System.ServiceModel;
 using WS.Unit06.User.Application.Services;
 using WS.Unit06.User.Application.Services.impl;
+using System.ServiceModel;
 using WS.Unit06.User.Application.util;
-namespace WS.Unit06.User.Application
+namespace WS.Unit06.User.Auth
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.TryAddSingleton<IApplicationServices, ApplicationServices>();
-            services.TryAddSingleton<IUserExpenseManagerServices, UserExpenseManagerServices>();
+            services.TryAddSingleton<IAuthServices, AuthServices>();
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSoapCore();
+
+            services.AddSoapServiceOperationTuner(new ServiceOperation());
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -25,24 +25,12 @@ namespace WS.Unit06.User.Application
             }
 
             //TODO: obsoleto
-            app.UseSoapEndpoint<IApplicationServices>(
-            "/ApplicationServices.svc",
+            app.UseSoapEndpoint<IAuthServices>(
+            "/AuthServices.svc",
             new BasicHttpBinding(),
             SoapSerializer.DataContractSerializer,
             false, null, null, true, true);
 
-
-
-
-
-            app.UseSoapEndpoint<IUserExpenseManagerServices>(
-            "/UserExpenseManagerServices.svc",
-            new BasicHttpBinding(),
-            SoapSerializer.DataContractSerializer,
-            false, null, null, true, true);
-
-
-            app.UseMvc();
         }
     }
 }

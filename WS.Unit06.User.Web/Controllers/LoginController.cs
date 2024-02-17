@@ -43,7 +43,7 @@ namespace WS.Unit06.User.Web.Controllers
 
                 var responseAuth = client.authenticateAsync().Result;
 
-                if (responseAuth != null && responseAuth.code==200)
+                if (responseAuth != null && responseAuth.code==201)
                 {
                     HttpContext.Session.SetString("token", responseAuth!.messageCustom);
 

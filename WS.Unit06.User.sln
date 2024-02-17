@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WS.Unit06.User.Auth", "WS.Unit06.User.Auth\WS.Unit06.User.Auth.csproj", "{A986A57D-A16D-4F5D-B871-7FE313E4228A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{854DE31B-D0E7-4FCF-9169-2A1285A80AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{854DE31B-D0E7-4FCF-9169-2A1285A80AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{854DE31B-D0E7-4FCF-9169-2A1285A80AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A986A57D-A16D-4F5D-B871-7FE313E4228A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A986A57D-A16D-4F5D-B871-7FE313E4228A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A986A57D-A16D-4F5D-B871-7FE313E4228A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A986A57D-A16D-4F5D-B871-7FE313E4228A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

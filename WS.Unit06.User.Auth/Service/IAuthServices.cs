@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using WS.Unit06.User.Application.util;
 
-namespace WS.Unit06.User.Application
+namespace WS.Unit06.User.Application.Services
 {
     [ServiceContract(Namespace = "http://ws.unit06.user/auth/")]
     public interface IAuthServices

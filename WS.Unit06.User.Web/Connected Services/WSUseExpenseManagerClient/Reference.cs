@@ -7,68 +7,68 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WSClientToken
+namespace WSUseExpenseManagerClient
 {
     using System.Runtime.Serialization;
     
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResponseCustom", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.util")]
-    public partial class ResponseCustom : object
+    [System.Runtime.Serialization.DataContractAttribute(Name="GroupDTO", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.Model")]
+    public partial class GroupDTO : object
     {
         
-        private int codeField;
+        private int IdField;
         
-        private string messageCustomField;
+        private string NameField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int code
+        public int Id
         {
             get
             {
-                return this.codeField;
+                return this.IdField;
             }
             set
             {
-                this.codeField = value;
+                this.IdField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string messageCustom
+        public string Name
         {
             get
             {
-                return this.messageCustomField;
+                return this.NameField;
             }
             set
             {
-                this.messageCustomField = value;
+                this.NameField = value;
             }
         }
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSClientToken.IAuthServices")]
-    public interface IAuthServices
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSUseExpenseManagerClient.IUserExpenseManagerServices")]
+    public interface IUserExpenseManagerServices
     {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/authenticate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/authenticateResponse")]
-        System.Threading.Tasks.Task<WSClientToken.ResponseCustom> authenticateAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/createGroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/createGroupResponse")]
+        System.Threading.Tasks.Task createGroupAsync(string name);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/validate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/validateResponse")]
-        System.Threading.Tasks.Task<WSClientToken.ResponseCustom> validateAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllCroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllCroupResponse")]
+        System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllCroupAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public interface IAuthServicesChannel : WSClientToken.IAuthServices, System.ServiceModel.IClientChannel
+    public interface IUserExpenseManagerServicesChannel : WSUseExpenseManagerClient.IUserExpenseManagerServices, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public partial class AuthServicesClient : System.ServiceModel.ClientBase<WSClientToken.IAuthServices>, WSClientToken.IAuthServices
+    public partial class UserExpenseManagerServicesClient : System.ServiceModel.ClientBase<WSUseExpenseManagerClient.IUserExpenseManagerServices>, WSUseExpenseManagerClient.IUserExpenseManagerServices
     {
         
         /// <summary>
@@ -78,47 +78,47 @@ namespace WSClientToken
         /// <param name="clientCredentials">The client credentials</param>
         static partial void ConfigureEndpoint(System.ServiceModel.Description.ServiceEndpoint serviceEndpoint, System.ServiceModel.Description.ClientCredentials clientCredentials);
         
-        public AuthServicesClient() : 
-                base(AuthServicesClient.GetDefaultBinding(), AuthServicesClient.GetDefaultEndpointAddress())
+        public UserExpenseManagerServicesClient() : 
+                base(UserExpenseManagerServicesClient.GetDefaultBinding(), UserExpenseManagerServicesClient.GetDefaultEndpointAddress())
         {
-            this.Endpoint.Name = EndpointConfiguration.BasicHttpBinding_IAuthServices.ToString();
+            this.Endpoint.Name = EndpointConfiguration.BasicHttpBinding_IUserExpenseManagerServices.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public AuthServicesClient(EndpointConfiguration endpointConfiguration) : 
-                base(AuthServicesClient.GetBindingForEndpoint(endpointConfiguration), AuthServicesClient.GetEndpointAddress(endpointConfiguration))
-        {
-            this.Endpoint.Name = endpointConfiguration.ToString();
-            ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
-        }
-        
-        public AuthServicesClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
-                base(AuthServicesClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
+        public UserExpenseManagerServicesClient(EndpointConfiguration endpointConfiguration) : 
+                base(UserExpenseManagerServicesClient.GetBindingForEndpoint(endpointConfiguration), UserExpenseManagerServicesClient.GetEndpointAddress(endpointConfiguration))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public AuthServicesClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(AuthServicesClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        public UserExpenseManagerServicesClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
+                base(UserExpenseManagerServicesClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
         
-        public AuthServicesClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public UserExpenseManagerServicesClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(UserExpenseManagerServicesClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        {
+            this.Endpoint.Name = endpointConfiguration.ToString();
+            ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
+        }
+        
+        public UserExpenseManagerServicesClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
         }
         
-        public System.Threading.Tasks.Task<WSClientToken.ResponseCustom> authenticateAsync()
+        public System.Threading.Tasks.Task createGroupAsync(string name)
         {
-            return base.Channel.authenticateAsync();
+            return base.Channel.createGroupAsync(name);
         }
         
-        public System.Threading.Tasks.Task<WSClientToken.ResponseCustom> validateAsync()
+        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllCroupAsync()
         {
-            return base.Channel.validateAsync();
+            return base.Channel.getAllCroupAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()
@@ -128,7 +128,7 @@ namespace WSClientToken
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IAuthServices))
+            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IUserExpenseManagerServices))
             {
                 System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
@@ -142,27 +142,27 @@ namespace WSClientToken
         
         private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
-            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IAuthServices))
+            if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_IUserExpenseManagerServices))
             {
-                return new System.ServiceModel.EndpointAddress("http://localhost:9093/AuthServices.svc");
+                return new System.ServiceModel.EndpointAddress("http://localhost:9091/UserExpenseManagerServices.svc");
             }
             throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
         
         private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
-            return AuthServicesClient.GetBindingForEndpoint(EndpointConfiguration.BasicHttpBinding_IAuthServices);
+            return UserExpenseManagerServicesClient.GetBindingForEndpoint(EndpointConfiguration.BasicHttpBinding_IUserExpenseManagerServices);
         }
         
         private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
-            return AuthServicesClient.GetEndpointAddress(EndpointConfiguration.BasicHttpBinding_IAuthServices);
+            return UserExpenseManagerServicesClient.GetEndpointAddress(EndpointConfiguration.BasicHttpBinding_IUserExpenseManagerServices);
         }
         
         public enum EndpointConfiguration
         {
             
-            BasicHttpBinding_IAuthServices,
+            BasicHttpBinding_IUserExpenseManagerServices,
         }
     }
 }

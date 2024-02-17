@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Primitives;
 using SoapCore.Extensibility;
 using SoapCore.ServiceModel;
+using WS.Unit06.User.Application.Services.impl;
 
 namespace WS.Unit06.User.Application.util
 {

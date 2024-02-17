@@ -1,9 +1,9 @@
 ﻿
-using WSClient.Data.WS;
 using WS.Unit06.User.Application.util;
 using System.Net;
+using WSDataUser;
 
-namespace WS.Unit06.User.Application
+namespace WS.Unit06.User.Application.Services.impl
 {
     public class AuthServices : IAuthServices
     {
@@ -24,13 +24,13 @@ namespace WS.Unit06.User.Application
                     var tokenGenerator = new JwtTokenGenerator();
                     string jwtToken = tokenGenerator.GenerateJwtToken(username);
                     httpContext.Response.Headers.Add("token", jwtToken);
-                   
-                    response.code = 200;
+
+                    response.code = 201;
                     response.messageCustom = "Usuario validado exitosamente";
                     return response;
                 }
             }
-           // httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            // httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             response.code = 401;
             response.messageCustom = "No hay credenciales válidas";
             return response;
@@ -46,17 +46,12 @@ namespace WS.Unit06.User.Application
                 var claimsPrincipal = tokenGenerator.ValidateJwtToken(token);
                 if (claimsPrincipal != null && claimsPrincipal.Identity.IsAuthenticated)
                 {
-                    //response.code = 200;
-                   // response.messageCustom = "Usuario validado exitosamente";
-                   // return response;
-                    response.code = 401;
+                    response.code = 200;
                     response.messageCustom = "Usuario validado exitosamente";
                     return response;
                 }
                 else
                 {
-                    //httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    // return "Token inválido";
                     response.code = 401;
                     response.messageCustom = "Usuario validado exitosamente";
                     return response;
@@ -64,8 +59,6 @@ namespace WS.Unit06.User.Application
             }
             else
             {
-                //httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                //return "Token hay token";
                 response.code = 401;
                 response.messageCustom = "No hay credenciales válidas";
                 return response;
