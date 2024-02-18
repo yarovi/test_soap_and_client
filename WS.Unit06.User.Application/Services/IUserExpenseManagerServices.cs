@@ -7,9 +7,12 @@ namespace WS.Unit06.User.Application.Services
     public interface IUserExpenseManagerServices
     {
         [OperationContract]
-        public void createGroup(string name);
+        public int createGroup(string name);
 
         [OperationContract]
         public List<GroupDTO> getAllCroup();
+
+        [OperationContract]
+        public int deleteGroup(int id);
     }
 }

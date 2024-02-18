@@ -1,8 +1,10 @@
 ﻿@{
 	ViewData["Title"] = "Home Page";
+	int? newGroupId = TempData["idGroup"] as int?;
 }
 
 <h2>Crear Grupo</h2>
+<div id="liveAlertPlaceholder"></div>
 
 <form asp-controller="Group" asp-action="createGroup" method="post">
 	<div class="form-group">
@@ -31,10 +33,7 @@
 					<td>@group.Id</td>
 					<td>@group.Name</td>
 					<td>
-						<form method="post" action="/Group/deleteGroup">
-							<input type="hidden" name="id" value="@group.Id" />
-							<button type="button" class="btn btn-outline-danger" type="submit">Eliminar</button>
-						</form>
+						@Html.ActionLink("Eliminar", "deleteGroup", new { id = group.Id }, new { @class = "btn btn-danger" })
 					</td>
 				</tr>
 			}
@@ -44,4 +43,21 @@
 else
 {
 	<p>No hay datos para mostrar.</p>
+}
+
+@if (newGroupId.HasValue)
+{
+	<script>
+		var alertDiv = document.createElement("div");
+		alertDiv.classList.add("alert", "alert-success");
+		alertDiv.textContent = "La operación con ID " + @newGroupId.Value + " fue ejecutada exitosamente.";
+		var placeholderDiv = document.getElementById("liveAlertPlaceholder");
+		placeholderDiv.appendChild(alertDiv);
+		setTimeout(function () {
+			alertDiv.classList.add("fade");
+			setTimeout(function () {
+				alertDiv.remove();
+			}, 1000);
+		}, 5000);
+	</script>
 }

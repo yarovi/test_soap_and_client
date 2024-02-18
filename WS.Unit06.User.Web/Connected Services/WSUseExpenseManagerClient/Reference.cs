@@ -55,10 +55,13 @@ namespace WSUseExpenseManagerClient
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/createGroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/createGroupResponse")]
-        System.Threading.Tasks.Task createGroupAsync(string name);
+        System.Threading.Tasks.Task<int> createGroupAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllCroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllCroupResponse")]
         System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllCroupAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/deleteGroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/deleteGroupResponse")]
+        System.Threading.Tasks.Task<int> deleteGroupAsync(int id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -111,7 +114,7 @@ namespace WSUseExpenseManagerClient
         {
         }
         
-        public System.Threading.Tasks.Task createGroupAsync(string name)
+        public System.Threading.Tasks.Task<int> createGroupAsync(string name)
         {
             return base.Channel.createGroupAsync(name);
         }
@@ -119,6 +122,11 @@ namespace WSUseExpenseManagerClient
         public System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllCroupAsync()
         {
             return base.Channel.getAllCroupAsync();
+        }
+        
+        public System.Threading.Tasks.Task<int> deleteGroupAsync(int id)
+        {
+            return base.Channel.deleteGroupAsync(id);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

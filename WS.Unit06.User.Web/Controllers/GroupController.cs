@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Diagnostics;
+using System.Xml.Linq;
 using WS.Unit06.User.Application.Model;
 using WS.Unit06.User.Application.Services.impl;
 using WSUseExpenseManagerClient;
@@ -25,18 +26,21 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
         return View();
         }
         [HttpPost]
-        public IActionResult createGroup(string name)
+        public async Task<IActionResult> createGroup(string name)
         {
             var client =new UserExpenseManagerServicesClient();
-            var response = client.createGroupAsync(name).Status;
+            var response = await client.createGroupAsync(name);
             Debug.WriteLine("valor:"+response);
-            return View();
-            //CreateGroup
-        }
-        [HttpPost]
+			TempData["idGroup"] = response;
+			return RedirectToAction("indexGroup", "Group");
+			//CreateGroup
+		}
         public IActionResult deleteGroup(int id)
         {
-			Debug.WriteLine("eliminando:" + id);
+			var client = new UserExpenseManagerServicesClient();
+			var response = client.deleteGroupAsync(id).Result;
+			Debug.WriteLine("valor:" + response);
+			TempData["idGroup"] = response;
 			return RedirectToAction("indexGroup", "Group");
 		}
     }
