@@ -49,6 +49,73 @@ namespace WSUseExpenseManagerClient
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="UserGroupDTO", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.Model")]
+    public partial class UserGroupDTO : object
+    {
+        
+        private int IdField;
+        
+        private string NameGroupField;
+        
+        private string NameUserField;
+        
+        private float totalAmmountField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Id
+        {
+            get
+            {
+                return this.IdField;
+            }
+            set
+            {
+                this.IdField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string NameGroup
+        {
+            get
+            {
+                return this.NameGroupField;
+            }
+            set
+            {
+                this.NameGroupField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string NameUser
+        {
+            get
+            {
+                return this.NameUserField;
+            }
+            set
+            {
+                this.NameUserField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public float totalAmmount
+        {
+            get
+            {
+                return this.totalAmmountField;
+            }
+            set
+            {
+                this.totalAmmountField = value;
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSUseExpenseManagerClient.IUserExpenseManagerServices")]
     public interface IUserExpenseManagerServices
@@ -62,6 +129,13 @@ namespace WSUseExpenseManagerClient
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/deleteGroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/deleteGroupResponse")]
         System.Threading.Tasks.Task<int> deleteGroupAsync(int id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/associateUserWithGroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/associateUserWithGroupResp" +
+            "onse")]
+        System.Threading.Tasks.Task<int[]> associateUserWithGroupAsync(int[] ids, int groupId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getUserGroups", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getUserGroupsResponse")]
+        System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -127,6 +201,16 @@ namespace WSUseExpenseManagerClient
         public System.Threading.Tasks.Task<int> deleteGroupAsync(int id)
         {
             return base.Channel.deleteGroupAsync(id);
+        }
+        
+        public System.Threading.Tasks.Task<int[]> associateUserWithGroupAsync(int[] ids, int groupId)
+        {
+            return base.Channel.associateUserWithGroupAsync(ids, groupId);
+        }
+        
+        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsAsync()
+        {
+            return base.Channel.getUserGroupsAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

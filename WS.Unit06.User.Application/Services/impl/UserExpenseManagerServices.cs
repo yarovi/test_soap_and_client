@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Diagnostics;
 using System.Net.Mime;
+using System.Text.Json.Nodes;
 using System.Xml.Linq;
 using WS.Unit06.User.Application.Model;
 using WS.Unit06.User.Application.util;
@@ -28,7 +29,9 @@ namespace WS.Unit06.User.Application.Services.impl
             _restClient= new RestClient(GlobalSetting.ApiUrl);
         }
 
-        public int createGroup(string name)
+		
+
+		public int createGroup(string name)
         {
             var request = new RestRequest("/api/groups", Method.Post);
             request.AddHeader("Accept", MediaTypeNames.Application.Json);
@@ -42,7 +45,6 @@ namespace WS.Unit06.User.Application.Services.impl
                 codeReturn = getLocationUrl(locationHeaderValue);
 			}
             return codeReturn;
-            //Debug.WriteLine("valor en UserExpenseManager:" + response);
         }
 
 		public int deleteGroup(int id)
@@ -77,7 +79,55 @@ namespace WS.Unit06.User.Application.Services.impl
 			}
 		}
 
-        private int getLocationUrl(string headerLocation)
+		public int[] associateUserWithGroup(List<int> ids,int groupId)
+		{
+			var request = new RestRequest("/api/user-groups/{groupId}/users", Method.Post);
+			request.AddHeader("Accept", MediaTypeNames.Application.Json);
+			request.AddParameter("groupId", 4, ParameterType.UrlSegment);
+			request.AddJsonBody( ids );
+			dynamic response = _restClient.ExecuteAsync(request).Result;
+			List<int> codesList = new List<int>();
+			if (response != null && response.Headers != null)
+			{
+				foreach (var header in response.Headers)
+				{
+					if (header.Name.Equals("Location", StringComparison.OrdinalIgnoreCase))
+					{
+						string locationHeaderValue = header.Value;
+						int code = getLocationUrl(locationHeaderValue);
+						codesList.Add(code);
+						break;
+					}
+				}
+			}
+			return codesList.ToArray();
+		}
+
+		public List<UserGroupDTO> getUserGroups()
+		{
+			var request = new RestRequest("/api/user-groups", Method.Get);
+			dynamic response = _restClient.ExecuteAsync(request).Result;
+			var userGroups = new List<UserGroupDTO>();
+			if (response.IsSuccessStatusCode)
+			{
+				var content = response.Content;
+				var varItems = JsonConvert.DeserializeObject<List<dynamic>>(content);
+				foreach (var obj in varItems)
+				{
+					UserGroupDTO userGroupDTO = new UserGroupDTO
+					{
+						Id = obj.id,
+						NameGroup = obj.group.name,
+						NameUser = obj.user.name,
+						totalAmmount = obj.user.totalAmount
+					};
+					userGroups.Add(userGroupDTO);
+				}
+			}
+			return userGroups;
+		}
+
+		private int getLocationUrl(string headerLocation)
         {
 			if (!string.IsNullOrEmpty(headerLocation))
 			{
@@ -91,5 +141,7 @@ namespace WS.Unit06.User.Application.Services.impl
 			}
             return 0;
 		}
-    }
+
+		
+	}
 }

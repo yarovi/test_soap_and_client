@@ -1,29 +1,77 @@
-﻿@model WSClient.ApplicationWS.UserDTO[]
-
+﻿@using WSUseExpenseManagerClient
+@using WSClient.ApplicationWS;
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h2>Agregar Usuario al Grupo</h2>
 
-<form asp-action="AddUserToGroup">
-    <div class="form-group">
-        <label for="groupId">Seleccionar Grupo:</label>
-        <select id="groupId" name="groupId" class="form-control">
-            <option value="1">Grupo 1</option>
-            <option value="2">Grupo 2</option>
-            <option value="3">Grupo 3</option>
-        </select>
-    </div>
+<form asp-action="AddUserToGroup" id="addUserForm">
+	<div class="form-group">
+		<label for="groupId">Seleccionar un Grupo:</label>
+		<select id="groupSelect" name="groupSelect" class="form-select" aria-label="Default select example">
+			<option value="">Seleccione </option>
+			@foreach (GroupDTO group in Model.groupDTOs)
+			{
+				<option value="@group.Id">@group.Name</option>
+			}
+		</select>
+	</div>
+	<div class="form-group">
+		<label for="userName">Buscar un Usuario:</label>
+		<select id="userId" name="userId" class="form-select" aria-label="Default select example">
+			<option value="">Seleccione </option>
+			@foreach (UserDTO user in Model.userDTOs)
+			{
+				<option value="@user.Id">@user.Name</option>
+			}
+		</select>
+	</div>
 
-    <div class="form-group">
-        <label for="userName">Buscar Usuario:</label>
-        <input type="text" id="userName" name="userName" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Agregar Usuario</button>
-    </div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary">Agregar Usuario</button> 
+	</div>
 </form>
+@if (Model.selectedUsers != null)
+	{
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Código</th>
+					<th>Name Usuario</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			@foreach (UserDTO selectedUser in Model.selectedUsers.GetAllUsers())
+				{
+					<tr>
+						<td>@selectedUser.Id</td>
+						<td>@selectedUser.Name</td>
+						<td>
+							<a href="#" class="btn btn-danger" onclick="removeUserGroup(@selectedUser.Id)">Eliminar</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+<form asp-action="saveGroupUser" method="post">
+	<!-- Contenido del formulario para guardar usuarios -->
+	<div class="form-group">
+		<input type="hidden" id="groupIdHidden" name="groupId" value="" />
+		<button type="submit" class="btn btn-primary">Guardar Todos</button>
+	</div>
+</form>
+<script>
+	// Script para actualizar el valor del campo oculto con el ID del grupo seleccionado
+	$(document).ready(function () {
+		$('#addUserForm').submit(function () {
+			var groupId = $('#groupSelect').val();
+			$('#groupIdHidden').val(groupId);
+		});
+	});
+</script>
 
 

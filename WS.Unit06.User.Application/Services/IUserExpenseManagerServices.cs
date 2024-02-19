@@ -14,5 +14,9 @@ namespace WS.Unit06.User.Application.Services
 
         [OperationContract]
         public int deleteGroup(int id);
-    }
+        [OperationContract]
+        public int[] associateUserWithGroup(List<int> ids, int groupId);
+        [OperationContract]
+        public List<UserGroupDTO> getUserGroups();
+	}
 }
