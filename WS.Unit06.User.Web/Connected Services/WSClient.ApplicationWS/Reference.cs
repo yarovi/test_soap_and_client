@@ -26,6 +26,8 @@ namespace WSClient.ApplicationWS
         
         private string PasswordField;
         
+        private string fullNameGroupField;
+        
         [System.Runtime.Serialization.DataMemberAttribute()]
         public string Email
         {
@@ -75,6 +77,19 @@ namespace WSClient.ApplicationWS
             set
             {
                 this.PasswordField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string fullNameGroup
+        {
+            get
+            {
+                return this.fullNameGroupField;
+            }
+            set
+            {
+                this.fullNameGroupField = value;
             }
         }
     }

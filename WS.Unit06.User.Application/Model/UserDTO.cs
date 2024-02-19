@@ -12,5 +12,7 @@ namespace WS.Unit06.User.Application.Model
 		[Display(Name = "Contraseña")]
 		public string Password { get;set; }
 
+		public string fullNameGroup { get; set; }
+
 	}
 }

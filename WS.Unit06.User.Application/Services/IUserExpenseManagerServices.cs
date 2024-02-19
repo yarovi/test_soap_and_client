@@ -18,5 +18,17 @@ namespace WS.Unit06.User.Application.Services
         public int[] associateUserWithGroup(List<int> ids, int groupId);
         [OperationContract]
         public List<UserGroupDTO> getUserGroups();
+
+        [OperationContract]
+        public List<GroupDTO> getAllGroupByUser(int id);
+
+        [OperationContract]
+        public int createTransaction(int idGroup, int idUser, string description, float expense);
+
+        [OperationContract]
+        public List<TransactionDTO> getAllTransaction();
+
+        [OperationContract]
+        public List<HistoryDTO> getHistoryTransaction(int idGroup);
 	}
 }

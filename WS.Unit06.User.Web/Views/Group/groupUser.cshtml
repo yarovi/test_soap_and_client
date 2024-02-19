@@ -6,10 +6,10 @@
 
 <h2>Agregar Usuario al Grupo</h2>
 
-<form asp-action="AddUserToGroup" id="addUserForm">
+<form asp-action="AddUserToGroup" method="post">
 	<div class="form-group">
 		<label for="groupId">Seleccionar un Grupo:</label>
-		<select id="groupSelect" name="groupSelect" class="form-select" aria-label="Default select example">
+		<select id="groupid" name="groupid" class="form-select" aria-label="Default select example">
 			<option value="">Seleccione </option>
 			@foreach (GroupDTO group in Model.groupDTOs)
 			{
@@ -29,49 +29,59 @@
 	</div>
 
 	<div class="form-group">
-		<button type="submit" class="btn btn-primary">Agregar Usuario</button> 
+		<button type="submit" class="btn btn-primary">Agregar Usuario</button>
 	</div>
 </form>
 @if (Model.selectedUsers != null)
-	{
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Código</th>
-					<th>Name Usuario</th>
-					<th>Acciones</th>
-				</tr>
-			</thead>
-			<tbody>
+{
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Name Usuario</th>
+				<th>Name Grupo</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
 
 			@foreach (UserDTO selectedUser in Model.selectedUsers.GetAllUsers())
-				{
-					<tr>
-						<td>@selectedUser.Id</td>
-						<td>@selectedUser.Name</td>
-						<td>
-							<a href="#" class="btn btn-danger" onclick="removeUserGroup(@selectedUser.Id)">Eliminar</a>
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	}
-<form asp-action="saveGroupUser" method="post">
-	<!-- Contenido del formulario para guardar usuarios -->
+			{
+				<tr>
+					<td>@selectedUser.Id</td>
+					<td>@selectedUser.Name</td>
+					<td>@selectedUser.fullNameGroup</td>
+					<td>
+						<a href="#" class="btn btn-danger" onclick="removeUserGroup(@selectedUser.Id)">Eliminar</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+<form asp-action="saveGroupUserForm" method="post" >
 	<div class="form-group">
-		<input type="hidden" id="groupIdHidden" name="groupId" value="" />
-		<button type="submit" class="btn btn-primary">Guardar Todos</button>
+		<input type="hidden" id="groupIdHidden" name="groupId" value="@TempData["GroupId"]" />
+		<button type="submit" id="saveGroupUser" class="btn btn-primary">Guardar Todos</button>
 	</div>
 </form>
 <script>
-	// Script para actualizar el valor del campo oculto con el ID del grupo seleccionado
-	$(document).ready(function () {
-		$('#addUserForm').submit(function () {
-			var groupId = $('#groupSelect').val();
-			$('#groupIdHidden').val(groupId);
+
+	document.addEventListener("DOMContentLoaded", function () {
+		var saveGroupUserButton = document.getElementById("saveGroupUser");
+
+		saveGroupUserButton.addEventListener("click", function () {
+			var groupId = document.getElementById("groupIdHidden").value;
+
+			if (groupId !== null) {
+				//groupIdHidden.value = groupId;
+				document.getElementById("saveGroupUserForm").submit();
+			} else {
+				alert("Por favor, seleccione un grupo antes de guardar.");
+			}
 		});
 	});
+
 </script>
 
 

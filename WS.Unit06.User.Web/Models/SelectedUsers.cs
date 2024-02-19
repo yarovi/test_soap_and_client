@@ -13,9 +13,9 @@ namespace WS.Unit06.User.Web.Models
 			_selectedUsers = new List<UserDTO>();
 		}
 
-		public void AddUser(int userId, string fullName)
+		public void AddUser(int userId, string fullName,string fullNameGroup)
 		{
-			var user = new UserDTO { Id = userId, Name = fullName };
+			var user = new UserDTO { Id = userId, Name = fullName,fullNameGroup=fullNameGroup };
 			if (!_selectedUsers.Any(u => u.Id == userId))
 			{
 				_selectedUsers.Add(user);

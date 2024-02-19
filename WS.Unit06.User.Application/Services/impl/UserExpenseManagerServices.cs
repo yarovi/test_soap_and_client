@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RestSharp;
-using System.Diagnostics;
 using System.Net.Mime;
-using System.Text.Json.Nodes;
-using System.Xml.Linq;
 using WS.Unit06.User.Application.Model;
 using WS.Unit06.User.Application.util;
 
@@ -142,6 +138,86 @@ namespace WS.Unit06.User.Application.Services.impl
             return 0;
 		}
 
-		
-	}
+		public List<GroupDTO> getAllGroupByUser(int id)
+		{
+			var request = new RestRequest("/api/users/{userId}/groups", Method.Get);
+			request.AddParameter("userId", id, ParameterType.UrlSegment);
+			dynamic response = _restClient.ExecuteAsync(request).Result;
+			if (response.IsSuccessStatusCode)
+			{
+				var content = response.Content;
+				var groupDTOs = JsonConvert.DeserializeObject<List<GroupDTO>>(content);
+				return groupDTOs;
+			}
+			return null;
+		}
+
+        public int createTransaction(int idGroup, int idUser,string description,float expense)
+        {
+            var request = new RestRequest("/api/transactions", Method.Post);
+            request.AddHeader("Accept", MediaTypeNames.Application.Json);
+            request.AddParameter("idGroup", idGroup, ParameterType.QueryString);
+            request.AddParameter("idUser", idUser, ParameterType.QueryString);
+            request.AddJsonBody(new  { description = description, expense=expense});
+            dynamic response = _restClient.ExecuteAsync(request).Result;
+            List<int> codesList = new List<int>();
+            if (response != null && response.Headers != null)
+            {
+                foreach (var header in response.Headers)
+                {
+                    if (header.Name.Equals("Location", StringComparison.OrdinalIgnoreCase))
+                    {
+                        string locationHeaderValue = header.Value;
+                        int code = getLocationUrl(locationHeaderValue);
+                        codesList.Add(code);
+                        break;
+                    }
+                }
+            }
+			return 0;//codesList.ToArray();
+        }
+
+        public List<TransactionDTO> getAllTransaction()
+        {
+            var request = new RestRequest("/api/transactions", Method.Get);
+            request.AddHeader("Accept", MediaTypeNames.Application.Json);
+            dynamic response = _restClient.ExecuteAsync(request).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                var transactionDTOs = JsonConvert.DeserializeObject<List<TransactionDTO>>(content);
+                return transactionDTOs;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public List<HistoryDTO> getHistoryTransaction(int idGroup)
+        {
+            var request = new RestRequest("/api/groups/{groupId}/history", Method.Get);
+            request.AddParameter("groupId", idGroup, ParameterType.UrlSegment);
+            dynamic response = _restClient.ExecuteAsync(request).Result;
+            var historyDTOs = new List<HistoryDTO>();
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                var varItems = JsonConvert.DeserializeObject<List<dynamic>>(content);
+                foreach (var obj in varItems)
+                {
+                    HistoryDTO userGroupDTO = new HistoryDTO
+                    {
+                        Id = obj.details.id,
+                        nameGroup = obj.details.userGroup.group.name,
+                        nameUser = obj.details.userGroup.user.name,
+                        individualTotal = obj.details.userGroup.totalIndividual,
+                        expense = obj.details.transaction.expense
+                    };
+                    historyDTOs.Add(userGroupDTO);
+                }
+            }
+            return historyDTOs;
+        }
+    }
 }

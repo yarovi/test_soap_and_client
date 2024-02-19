@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using WS.Unit06.User.Web.Models;
 using WSClient.ApplicationWS;
 using WSUseExpenseManagerClient;
@@ -73,16 +70,18 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddUserToGroup(int userId  )
+		public IActionResult AddUserToGroup(int userId, int groupid)
 		{
 			selectedUsers = TempData["SelectedUsers"] as SelectedUsers ?? new SelectedUsers();
 			if (selectedUsers == null)
 				selectedUsers = new SelectedUsers();
 			if (!selectedUsers.ContainsUser(userId))
 			{
+				var grupoName = groupDTOs.Find(f => f.Id == groupid).Name;
 				var item = userDTOs.Find(u => u.Id == userId);
-				selectedUsers.AddUser(item.Id, item.Name);
+				selectedUsers.AddUser(item.Id, item.Name, grupoName);
 				TempData["SelectedUserIds"] = selectedUsers.GetAllUsers().Select(u => u.Id).ToList();
+				TempData["groupid"] = groupid;
 			}
 			var CustomDtos = new
 			{
@@ -93,13 +92,14 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			return View("groupUser", CustomDtos);
 		}
 		[HttpPost]
-		public IActionResult saveGroupUser(int groupId)
+		public IActionResult saveGroupUserForm()
 		{
 			var selectedUserIds = TempData["SelectedUserIds"] as int[];
 			if (selectedUserIds != null)
 			{
 				var client = new UserExpenseManagerServicesClient();
-				var response =  client.associateUserWithGroupAsync(selectedUserIds.ToArray(), groupId);
+				var groupId = TempData["groupid"];
+				var response = client.associateUserWithGroupAsync(selectedUserIds.ToArray(), 1);
 				Debug.WriteLine("valor:" + response);
 			}
 			var CustomDtos = new
@@ -116,5 +116,37 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			selectedUsers.RemoveUser(id);
 			return View("groupUser", selectedUsers);
 		}
-	}
+		//------------------------------------ TRANSACTIONS
+		public IActionResult indexTransaction()
+		{
+
+			var client = new UserExpenseManagerServicesClient();
+			List<GroupDTO> groupByUser = client.getAllGroupByUserAsync(4).Result.
+                Select(g => new GroupDTO { Id = g.Id, Name = g.Name }).ToList();
+            var CustomGroupByUser = new
+            {
+                groupByUser
+            };
+            return View("expenseGroup", CustomGroupByUser);
+		}
+		[HttpPost]
+		public IActionResult saveTransaction(int idGroup,string description, float expenses)
+		{
+			//TODO: Aquie retorna el id pero esta con el path del uerystring mejorar
+            var client = new UserExpenseManagerServicesClient();
+			int result = client.createTransactionAsync(idGroup,4,description,expenses).Result;
+            //return View("expenseGroup");
+            return RedirectToAction("expenseGroup", "Group");
+        }
+
+        [HttpGet]
+        public IActionResult getHistory(int idGroup)
+        {
+            var client = new UserExpenseManagerServicesClient();
+			List<HistoryDTO> historyDTOs = client.getHistoryTransactionAsync(idGroup).Result.ToList();
+
+            // Devolvemos los datos como JSON
+            return Json(historyDTOs);
+        }
+    }
 }

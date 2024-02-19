@@ -1,10 +1,22 @@
-﻿@{
+﻿@using WSUseExpenseManagerClient
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <h2>Registrar Gasto</h2>
 
-<form asp-action="Create">
+<form asp-action="saveTransaction">
+
+    <div class="form-group">
+        <label for="groupId">Seleccionar un Grupo:</label>
+        <select id="idGroup" name="idGroup" class="form-select" aria-label="Default select example" onchange="updateTable()">
+            <option value="">Seleccione </option>
+            @foreach (GroupDTO group in Model.groupByUser)
+            {
+                <option value="@group.Id">@group.Name</option>
+            }
+        </select>
+    </div>
     <div class="form-group">
         <label for="description">Descripción del Gasto:</label>
         <input type="text" id="description" name="description" class="form-control" />
@@ -19,4 +31,54 @@
 
     <button type="submit" class="btn btn-primary">Registrar Gasto</button>
 </form>
+<table id="tablaHistorial" class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Grupo</th>
+            <th>Usuario</th>
+            <th>Total Individual</th>
+            <th>Gasto</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+<script>
+    function updateTable() {
+        var groupId = document.getElementById("idGroup").value;
 
+            fetch('/Group/getHistory?idGroup=' + groupId)
+            .then(response => response.json())
+            .then(data => {
+                actualizarTabla(data);
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos de la tabla:', error);
+            });
+    }
+
+    function actualizarTabla(data) {
+            var tabla = document.getElementById("tablaHistorial").getElementsByTagName("tbody")[0];;
+
+        tabla.innerHTML = "";
+
+        data.forEach(function (historial) {
+            var fila = tabla.insertRow();
+
+            var celdaId = fila.insertCell();
+            celdaId.innerHTML = historial.Id;
+
+            var celdaNombreGrupo = fila.insertCell();
+            celdaNombreGrupo.innerHTML = historial.nameGroup;
+
+            var celdaNombreUsuario = fila.insertCell();
+            celdaNombreUsuario.innerHTML = historial.nameUser;
+
+            var celdaTotalIndividual = fila.insertCell();
+            celdaTotalIndividual.innerHTML = historial.individualTotal;
+
+            var celdaGasto = fila.insertCell();
+            celdaGasto.innerHTML = historial.expense;
+        });
+    }
+</script>
