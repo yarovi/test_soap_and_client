@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WSClientToken
+namespace WSAuthClient
 {
     using System.Runtime.Serialization;
     
@@ -50,25 +50,25 @@ namespace WSClientToken
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSClientToken.IAuthServices")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSAuthClient.IAuthServices")]
     public interface IAuthServices
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/authenticate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/authenticateResponse")]
-        System.Threading.Tasks.Task<WSClientToken.ResponseCustom> authenticateAsync();
+        System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> authenticateAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/validate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/validateResponse")]
-        System.Threading.Tasks.Task<WSClientToken.ResponseCustom> validateAsync();
+        System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> validateAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public interface IAuthServicesChannel : WSClientToken.IAuthServices, System.ServiceModel.IClientChannel
+    public interface IAuthServicesChannel : WSAuthClient.IAuthServices, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public partial class AuthServicesClient : System.ServiceModel.ClientBase<WSClientToken.IAuthServices>, WSClientToken.IAuthServices
+    public partial class AuthServicesClient : System.ServiceModel.ClientBase<WSAuthClient.IAuthServices>, WSAuthClient.IAuthServices
     {
         
         /// <summary>
@@ -111,12 +111,12 @@ namespace WSClientToken
         {
         }
         
-        public System.Threading.Tasks.Task<WSClientToken.ResponseCustom> authenticateAsync()
+        public System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> authenticateAsync()
         {
             return base.Channel.authenticateAsync();
         }
         
-        public System.Threading.Tasks.Task<WSClientToken.ResponseCustom> validateAsync()
+        public System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> validateAsync()
         {
             return base.Channel.validateAsync();
         }

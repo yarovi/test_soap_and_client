@@ -1,4 +1,5 @@
 ﻿using WS.Unit06.User.Application.Model;
+using WSAuthClient;
 using WSClient.Data.WS;
 
 namespace WS.Unit06.User.Application.Services.impl
@@ -70,6 +71,12 @@ namespace WS.Unit06.User.Application.Services.impl
         {
             IDataServices dataws = new DataServicesClient();
             dataws.DeleteUserAsync(id);
+        }
+
+
+        public ResponseCustom validate()
+        {
+            throw new NotImplementedException();
         }
     }
 }

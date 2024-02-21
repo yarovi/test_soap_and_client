@@ -1,15 +1,14 @@
-﻿@using WSUseExpenseManagerClient
-@using WSClient.ApplicationWS;
+﻿@using WS.Unit06.User.Application.Model
 @{
 	ViewData["Title"] = "Index";
 }
 
 <h2>Agregar Usuario al Grupo</h2>
-
-<form asp-action="AddUserToGroup" method="post">
+<div id="liveAlertPlaceholder"></div>
+<form id="userGroupForm">
 	<div class="form-group">
-		<label for="groupId">Seleccionar un Grupo:</label>
-		<select id="groupid" name="groupid" class="form-select" aria-label="Default select example">
+		<label for="idGroup">Seleccionar un Grupo:</label>
+		<select id="idGroup" name="idGroup" class="form-select" aria-label="Default select example">
 			<option value="">Seleccione </option>
 			@foreach (GroupDTO group in Model.groupDTOs)
 			{
@@ -18,8 +17,8 @@
 		</select>
 	</div>
 	<div class="form-group">
-		<label for="userName">Buscar un Usuario:</label>
-		<select id="userId" name="userId" class="form-select" aria-label="Default select example">
+		<label for="idUser">Buscar un Usuario:</label>
+		<select id="idUser" name="idUser" class="form-select" aria-label="Default select example">
 			<option value="">Seleccione </option>
 			@foreach (UserDTO user in Model.userDTOs)
 			{
@@ -29,58 +28,131 @@
 	</div>
 
 	<div class="form-group">
-		<button type="submit" class="btn btn-primary">Agregar Usuario</button>
+		<button type="button" id="userGroupButton"
+				name="userGroupButton" class="btn btn-primary">
+			Agregar Usuario
+		</button>
 	</div>
 </form>
-@if (Model.selectedUsers != null)
-{
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Código</th>
-				<th>Name Usuario</th>
-				<th>Name Grupo</th>
-				<th>Acciones</th>
-			</tr>
-		</thead>
-		<tbody>
 
-			@foreach (UserDTO selectedUser in Model.selectedUsers.GetAllUsers())
-			{
-				<tr>
-					<td>@selectedUser.Id</td>
-					<td>@selectedUser.Name</td>
-					<td>@selectedUser.fullNameGroup</td>
-					<td>
-						<a href="#" class="btn btn-danger" onclick="removeUserGroup(@selectedUser.Id)">Eliminar</a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-}
-<form asp-action="saveGroupUserForm" method="post" >
+<table class="table table-striped" id="userGroupTable">
+	<thead>
+		<tr>
+			<th>Código</th>
+			<th>Name Usuario</th>
+			<th>Name Grupo</th>
+			@* <th>Acciones</th> *@
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+
+<form id="saveGroupUserForm">
 	<div class="form-group">
-		<input type="hidden" id="groupIdHidden" name="groupId" value="@TempData["GroupId"]" />
-		<button type="submit" id="saveGroupUser" class="btn btn-primary">Guardar Todos</button>
+		<button type="button" id="saveGroupUser" class="btn btn-primary">Guardar Todos</button>
 	</div>
 </form>
-<script>
-
-	document.addEventListener("DOMContentLoaded", function () {
-		var saveGroupUserButton = document.getElementById("saveGroupUser");
-
-		saveGroupUserButton.addEventListener("click", function () {
-			var groupId = document.getElementById("groupIdHidden").value;
-
-			if (groupId !== null) {
-				//groupIdHidden.value = groupId;
-				document.getElementById("saveGroupUserForm").submit();
-			} else {
-				alert("Por favor, seleccione un grupo antes de guardar.");
-			}
-		});
+<script type="text/javascript">
+	//Add new User-Group
+	document.getElementById("userGroupButton").addEventListener("click", function () {
+		updateUserGroup();
 	});
+	function updateUserGroup() {
+		var idGroup = document.getElementById("idGroup").value;
+		var idUser = document.getElementById("idUser").value;
+
+		var formData = new FormData();
+		//formData.append("idGroup", idGroup);
+		formData.append("idUser", idUser);
+
+		fetch('/Group/AddUserToGroup', {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Error en la solicitud');
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log(data);
+				actualizarTabla(data);
+			})
+			.catch(error => {
+				console.error('Error en la solicitud:', error);
+			});
+	}
+	//Save To new Group with User
+	document.getElementById("saveGroupUserForm").addEventListener("click", function () {
+		saveUserGroup();
+	});
+	function saveUserGroup() {
+		var idGroup = document.getElementById("idGroup").value;
+
+		var formData = new FormData();
+		formData.append("idGroup", idGroup);
+
+		fetch('/Group/saveGroupUserForm', {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Error en la solicitud');
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log(data);
+
+				var jsonString = JSON.stringify(data);
+
+				showAlertMessage("La operación con ID " + jsonString + " fue ejecutada exitosamente.");
+				actualizarTabla(data);
+			})
+			.catch(error => {
+				console.error('Error en la solicitud:', error);
+			});
+	}
+
+	function actualizarTabla(data) {
+		var tabla = document.getElementById("userGroupTable").getElementsByTagName("tbody")[0];;
+
+		tabla.innerHTML = "";
+
+		data.forEach(function (groupUser) {
+			var fila = tabla.insertRow();
+
+			var celdaId = fila.insertCell();
+			celdaId.innerHTML = groupUser.id;
+
+			var celdaNombreGrupo = fila.insertCell();
+			celdaNombreGrupo.innerHTML = groupUser.name;
+
+			var celdaNombreUsuario = fila.insertCell();
+			celdaNombreUsuario.innerHTML = groupUser.fullNameGroup;
+
+		});
+	}
+
+	function showAlertMessage(message) {
+		var alertDiv = document.createElement("div");
+		alertDiv.classList.add("alert", "alert-success");
+		alertDiv.textContent = message;
+
+		var placeholderDiv = document.getElementById("liveAlertPlaceholder");
+
+		placeholderDiv.appendChild(alertDiv);
+
+		setTimeout(function () {
+			alertDiv.classList.add("fade");
+			setTimeout(function () {
+				alertDiv.remove();
+			}, 1000);
+		}, 5000); 
+	}
 
 </script>
 

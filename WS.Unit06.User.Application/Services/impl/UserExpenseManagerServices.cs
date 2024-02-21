@@ -22,64 +22,64 @@ namespace WS.Unit06.User.Application.Services.impl
             options.RemoteCertificateValidationCallback =
                                (sender, certificate, chain, sslPolicyErrors) => true;
             _restClient = new RestClient(options);*/
-            _restClient= new RestClient(GlobalSetting.ApiUrl);
+            _restClient = new RestClient(GlobalSetting.ApiUrl);
         }
 
-		
 
-		public int createGroup(string name)
+
+        public int createGroup(string name)
         {
             var request = new RestRequest("/api/groups", Method.Post);
             request.AddHeader("Accept", MediaTypeNames.Application.Json);
-            request.AddJsonBody(JsonConvert.SerializeObject( new { name }));
+            request.AddJsonBody(JsonConvert.SerializeObject(new { name }));
             //dynamic response = JsonConvert.DeserializeObject<dynamic>(
             //    _restClient.ExecuteAsync<dynamic>(request).Result.Content);
             dynamic response = _restClient.ExecuteAsync(request).Result;
-            int codeReturn=0;
-			if (response != null) {
+            int codeReturn = 0;
+            if (response != null) {
                 var locationHeaderValue = response.Headers[3].Value;
                 codeReturn = getLocationUrl(locationHeaderValue);
-			}
+            }
             return codeReturn;
         }
 
-		public int deleteGroup(int id)
-		{
-			var request = new RestRequest("/api/groups/{id}", Method.Delete);
-            request.AddParameter("id", id,ParameterType.UrlSegment);
-			dynamic response = _restClient.ExecuteAsync(request).Result;
-			int codeReturn = 0;
-			if (response != null)
-			{
-				//var locationHeaderValue = response.Headers[3].Value;
-				//codeReturn = getLocationUrl(locationHeaderValue);
-                codeReturn= id;
-			}
-			return codeReturn;
-		}
+        public int deleteGroup(int id)
+        {
+            var request = new RestRequest("/api/groups/{id}", Method.Delete);
+            request.AddParameter("id", id, ParameterType.UrlSegment);
+            dynamic response = _restClient.ExecuteAsync(request).Result;
+            int codeReturn = 0;
+            if (response != null)
+            {
+                //var locationHeaderValue = response.Headers[3].Value;
+                //codeReturn = getLocationUrl(locationHeaderValue);
+                codeReturn = id;
+            }
+            return codeReturn;
+        }
 
-		public List<GroupDTO> getAllCroup()
+        public List<GroupDTO> getAllCroup()
         {
             var request = new RestRequest("/api/groups", Method.Get);
             request.AddHeader("Accept", MediaTypeNames.Application.Json);
             dynamic response = _restClient.ExecuteAsync(request).Result;
-			if (response.IsSuccessStatusCode)
-			{
-				var content = response.Content;
-				var groupDTOs = JsonConvert.DeserializeObject<List<GroupDTO>>(content);
-				return groupDTOs;
-			}
-			else
-			{
-				return null;
-			}
-		}
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                var groupDTOs = JsonConvert.DeserializeObject<List<GroupDTO>>(content);
+                return groupDTOs;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-		public int[] associateUserWithGroup(List<int> ids,int groupId)
+        public int[] associateUserWithGroup(int[] ids,int groupId)
 		{
 			var request = new RestRequest("/api/user-groups/{groupId}/users", Method.Post);
 			request.AddHeader("Accept", MediaTypeNames.Application.Json);
-			request.AddParameter("groupId", 4, ParameterType.UrlSegment);
+			request.AddParameter("groupId", groupId, ParameterType.UrlSegment);
 			request.AddJsonBody( ids );
 			dynamic response = _restClient.ExecuteAsync(request).Result;
 			List<int> codesList = new List<int>();
@@ -134,6 +134,14 @@ namespace WS.Unit06.User.Application.Services.impl
 					if (int.TryParse(codeLocation, out int number))
 						return number;
 				}
+				lastSlashIndex = headerLocation.LastIndexOf('?') - 1;
+                if(lastSlashIndex != -1)
+                {
+                    int secondSlash= headerLocation.LastIndexOf('/') + 1;
+					string codeLocation = headerLocation.Substring(lastSlashIndex,secondSlash);
+					if (int.TryParse(codeLocation, out int number))
+						return number;
+				}
 			}
             return 0;
 		}
@@ -154,6 +162,7 @@ namespace WS.Unit06.User.Application.Services.impl
 
         public int createTransaction(int idGroup, int idUser,string description,float expense)
         {
+            //TODO SE va cambiar ya no se necesita el iduser
             var request = new RestRequest("/api/transactions", Method.Post);
             request.AddHeader("Accept", MediaTypeNames.Application.Json);
             request.AddParameter("idGroup", idGroup, ParameterType.QueryString);

@@ -22,7 +22,7 @@ namespace WS.Unit06.User.Application.Services.impl
                 if (user != null)
                 {
                     var tokenGenerator = new JwtTokenGenerator();
-                    string jwtToken = tokenGenerator.GenerateJwtToken(username);
+                    string jwtToken = tokenGenerator.GenerateJwtToken(user);
                     httpContext.Response.Headers.Add("token", jwtToken);
 
                     response.code = 201;

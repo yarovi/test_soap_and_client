@@ -2,19 +2,22 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WSDataUser;
 
 namespace WS.Unit06.User.Application.util
 {
     public class JwtTokenGenerator
     {
 
-        public string GenerateJwtToken(string username)
+        public string GenerateJwtToken(Users user)
         {
             var secretKey = GenerateSecretKey();
             // Configurar las claims del token
             var claims = new ClaimsIdentity();
-            claims.AddClaim(new Claim(ClaimTypes.Name, username));
-            claims.AddClaim(new Claim(ClaimTypes.GroupSid, "1"));
+            claims.AddClaim(new Claim(ClaimTypes.Name, user.Username));
+            claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            //claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.));
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

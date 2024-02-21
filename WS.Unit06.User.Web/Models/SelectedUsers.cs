@@ -1,16 +1,18 @@
 ﻿
-using WSClient.ApplicationWS;
-using WSClient.Data.WS;
+
+
+using Newtonsoft.Json;
+using WS.Unit06.User.Application.Model;
 
 namespace WS.Unit06.User.Web.Models
 {
 	public class SelectedUsers
 	{
-		private List<UserDTO> _selectedUsers;
+		[JsonProperty("userdtos")]
+		private List<UserDTO> _selectedUsers = new List<UserDTO>();
 
 		public SelectedUsers()
 		{
-			_selectedUsers = new List<UserDTO>();
 		}
 
 		public void AddUser(int userId, string fullName,string fullNameGroup)

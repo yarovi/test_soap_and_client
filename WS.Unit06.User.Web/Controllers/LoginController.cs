@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.Text;
-using WS.Unit06.User.Application;
-using WSClientToken;
+using WSAuthClient;
 
 namespace WS.Unit06.User.Web.Controllers
 {
@@ -43,9 +41,12 @@ namespace WS.Unit06.User.Web.Controllers
 
                 var responseAuth = client.authenticateAsync().Result;
 
-                if (responseAuth != null && responseAuth.code==201)
+                if (responseAuth != null && responseAuth.code==201 && OperationContext.Current.IncomingMessageProperties.TryGetValue(HttpResponseMessageProperty.Name, out var responseMessage) &&
+		responseMessage is HttpResponseMessageProperty httpResponse)
                 {
-                    HttpContext.Session.SetString("token", responseAuth!.messageCustom);
+
+					string token = httpResponse.Headers["token"];
+					HttpContext.Session.SetString("token", token);
 
                     Console.WriteLine("iniciando login ..!");
                     return RedirectToAction("Index", "Home");
