@@ -48,12 +48,16 @@ namespace WS.Unit06.User.Application.Services.impl
                 {
                     response.code = 200;
                     response.messageCustom = "Usuario validado exitosamente";
-                    return response;
+                    response.Claims = new Auth.util.CustomClaim();
+
+					response.Claims.Value = claimsPrincipal.Claims.Skip(0).FirstOrDefault()?.Value;
+					response.Claims.Type = claimsPrincipal.Claims.Skip(1).FirstOrDefault()?.Value;
+					return response;
                 }
                 else
                 {
                     response.code = 401;
-                    response.messageCustom = "Usuario validado exitosamente";
+                    response.messageCustom = "Usuario con token invalido";
                     return response;
                 }
             }
