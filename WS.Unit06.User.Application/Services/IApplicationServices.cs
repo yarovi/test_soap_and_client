@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 using WS.Unit06.User.Application.Model;
-using WSAuthClient;
+
 
 
 namespace WS.Unit06.User.Application
@@ -26,7 +26,5 @@ namespace WS.Unit06.User.Application
 		[OperationContract]
 		public void DeleteUser(int id);
 
-        [OperationContract]
-        public ResponseCustom validate();
     }
 }

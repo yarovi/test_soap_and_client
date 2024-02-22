@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.ServiceModel.Channels;
+using System.ServiceModel;
 using System.Text;
-using WS.Unit06.User.Application.Model;
 using WS.Unit06.User.Web.Models;
-using WS.Unit06.User.Web.Util;
 using wsClientApplication=WSClient.ApplicationWS;
 using wsClientExpense=WSUseExpenseManagerClient;
+using WSUseExpenseManagerClient;
+using WSClient.ApplicationWS;
 
 
 namespace Web.Mvc.Formulario.Gastos.Controllers
@@ -15,16 +16,15 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 	public class GroupController : Controller
 	{
 		private SelectedUsers? selectedUsers;
-		List<GroupDTO> groupDTOs;
-		List<UserDTO> userDTOs;
+		GroupDTO[] groupDTOs;
+		UserDTO[] userDTOs;
 
 		public GroupController()
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
-			groupDTOs = client.getAllCroupAsync().Result.
-				Select(g => new GroupDTO { Id = g.Id, Name = g.Name }).ToList();
+			groupDTOs = client.getAllCroupAsync().Result;
 			var clientUser = new wsClientApplication.ApplicationServicesClient();
-			userDTOs = clientUser.getUsersAsync().Result.Select(u => new UserDTO { Id = u.Id, Name = u.Name }).ToList();
+			userDTOs = clientUser.getUsersAsync().Result;
 		}
 
 		public IActionResult indexGroup()
@@ -51,7 +51,6 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			Debug.WriteLine("valor:" + response);
 			TempData["idGroup"] = response;
 			return RedirectToAction("indexGroup", "Group");
-			//CreateGroup
 		}
 		public IActionResult deleteGroup(int id)
 		{
@@ -61,8 +60,9 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			TempData["idGroup"] = response;
 			return RedirectToAction("indexGroup", "Group");
 		}
-
+		//----------------------------------------------------------------------
 		//----------------------------GROUP-USER
+		//----------------------------------------------------------------------
 		public IActionResult indexGroupUser()
 		{
 			var CustomDtos = new
@@ -80,12 +80,10 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			selectedUsers = GetSelectedUsersFromSession();
 			if (!selectedUsers.ContainsUser(idUser))
 			{
-				var item = userDTOs.Find(u => u.Id == idUser);
+				var item = userDTOs.FirstOrDefault(u => u.Id == idUser);
 				selectedUsers.AddUser(item.Id, item.Name, "Por Asignar ..!");
 				SaveSelectedUsersToSession(selectedUsers);
-
 			}
-
 			return Json(selectedUsers.GetAllUsers()); 
 		}
 		[HttpPost]
@@ -99,14 +97,9 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 				var response =await client.
 					associateUserWithGroupAsync(ids, 
 					idGroup);
-				
+				HttpContext.Session.Remove("SelectedUsers");
 				return Json(response);
 			}
-			/*var CustomDtos = new
-			{
-				userDTOs,
-				groupDTOs,
-			};*/
 			return null;
 		}
 		[HttpDelete]
@@ -115,33 +108,73 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			selectedUsers.RemoveUser(id);
 			return View("groupUser", selectedUsers);
 		}
+		//-----------------------------------------------------
 		//------------------------------------ TRANSACTIONS
-		public IActionResult indexTransaction()
+		//-----------------------------------------------------
+		public async Task<IActionResult> indexTransaction()
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
-			List<GroupDTO> groupByUser = client.getAllGroupByUserAsync(4).Result.
-				Select(g => new GroupDTO { Id = g.Id, Name = g.Name }).ToList();
-			var CustomGroupByUser = new
+			string token = HttpContext.Session.GetString("token");
+			using (var scope = new OperationContextScope(client.InnerChannel))
 			{
-				groupByUser
-			};
-			return View("expenseGroup", CustomGroupByUser);
+
+				HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
+				httpRequestProperty.Headers["token"] = token;
+				OperationContext.Current.
+					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
+					httpRequestProperty;
+
+				GroupDTO[] groupDTOs = client.getAllGroupByUserAsync().Result;
+				if (groupDTOs != null  	)
+				{
+					var CustomGroupByUser = new
+					{
+						groupDTOs
+					};
+					return View("expenseGroup", CustomGroupByUser);
+				}
+				else
+				{
+					return View("expenseGroup", null);
+				}
+			}
+
 		}
 		[HttpPost]
 		public IActionResult saveTransaction(int idGroup, string description, float expenses)
 		{
 			//TODO: Aquie retorna el id pero esta con el path se debe mejorar
+			string token = HttpContext.Session.GetString("token");
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
-			int result = client.createTransactionAsync(idGroup, 4, description, expenses).Result;
-			return RedirectToAction("expenseGroup", "Group");
+			
+			using (var scope = new OperationContextScope(client.InnerChannel))
+			{
+
+				HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
+				httpRequestProperty.Headers["token"] = token;
+				OperationContext.Current.
+					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
+					httpRequestProperty;
+
+				int result = client.createTransactionAsync(idGroup, description, expenses).Result;
+
+				if (result != null)
+				{
+					return Json(result);
+				}
+				else
+				{
+					return RedirectToAction("indexTransaction", "Group");
+				}
+			}
 		}
 
 		[HttpGet]
 		public IActionResult getHistory(int idGroup)
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
-			List<wsClientExpense.HistoryDTO> historyDTOs = client.getHistoryTransactionAsync(idGroup).Result.ToList();
-			return Json(null);
+			HistoryDTO[] historyDTOs = client.getHistoryTransactionAsync(idGroup).Result;
+			return Json(historyDTOs);
 		}
 
 		private SelectedUsers GetSelectedUsersFromSession()

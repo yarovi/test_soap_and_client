@@ -2,7 +2,8 @@
 
 
 using Newtonsoft.Json;
-using WS.Unit06.User.Application.Model;
+using WSClient.ApplicationWS;
+
 
 namespace WS.Unit06.User.Web.Models
 {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WSAuthClient
+namespace WSAuthClientSOAP
 {
     using System.Runtime.Serialization;
     
@@ -18,9 +18,24 @@ namespace WSAuthClient
     public partial class ResponseCustom : object
     {
         
+        private WSAuthClientSOAP.CustomClaim ClaimsField;
+        
         private int codeField;
         
         private string messageCustomField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public WSAuthClientSOAP.CustomClaim Claims
+        {
+            get
+            {
+                return this.ClaimsField;
+            }
+            set
+            {
+                this.ClaimsField = value;
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public int code
@@ -49,26 +64,63 @@ namespace WSAuthClient
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSAuthClient.IAuthServices")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CustomClaim", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Auth.util")]
+    public partial class CustomClaim : object
+    {
+        
+        private string TypeField;
+        
+        private string ValueField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Type
+        {
+            get
+            {
+                return this.TypeField;
+            }
+            set
+            {
+                this.TypeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Value
+        {
+            get
+            {
+                return this.ValueField;
+            }
+            set
+            {
+                this.ValueField = value;
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSAuthClientSOAP.IAuthServices")]
     public interface IAuthServices
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/authenticate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/authenticateResponse")]
-        System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> authenticateAsync();
+        System.Threading.Tasks.Task<WSAuthClientSOAP.ResponseCustom> authenticateAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/validate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/validateResponse")]
-        System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> validateAsync();
+        System.Threading.Tasks.Task<WSAuthClientSOAP.ResponseCustom> validateAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public interface IAuthServicesChannel : WSAuthClient.IAuthServices, System.ServiceModel.IClientChannel
+    public interface IAuthServicesChannel : WSAuthClientSOAP.IAuthServices, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    public partial class AuthServicesClient : System.ServiceModel.ClientBase<WSAuthClient.IAuthServices>, WSAuthClient.IAuthServices
+    public partial class AuthServicesClient : System.ServiceModel.ClientBase<WSAuthClientSOAP.IAuthServices>, WSAuthClientSOAP.IAuthServices
     {
         
         /// <summary>
@@ -111,12 +163,12 @@ namespace WSAuthClient
         {
         }
         
-        public System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> authenticateAsync()
+        public System.Threading.Tasks.Task<WSAuthClientSOAP.ResponseCustom> authenticateAsync()
         {
             return base.Channel.authenticateAsync();
         }
         
-        public System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> validateAsync()
+        public System.Threading.Tasks.Task<WSAuthClientSOAP.ResponseCustom> validateAsync()
         {
             return base.Channel.validateAsync();
         }

@@ -2,7 +2,7 @@
 {
     public class HistoryDTO
     {
-        public int Id { get; set; }
+        public int idHistory { get; set; }
         public string nameGroup { get; set; }
         public string nameUser {  get; set; }
         

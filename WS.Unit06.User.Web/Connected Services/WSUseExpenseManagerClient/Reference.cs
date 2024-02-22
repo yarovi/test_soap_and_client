@@ -189,28 +189,15 @@ namespace WSUseExpenseManagerClient
     public partial class HistoryDTO : object
     {
         
-        private int IdField;
-        
         private string expenseField;
+        
+        private int idHistoryField;
         
         private string individualTotalField;
         
         private string nameGroupField;
         
         private string nameUserField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id
-        {
-            get
-            {
-                return this.IdField;
-            }
-            set
-            {
-                this.IdField = value;
-            }
-        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public string expense
@@ -222,6 +209,19 @@ namespace WSUseExpenseManagerClient
             set
             {
                 this.expenseField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int idHistory
+        {
+            get
+            {
+                return this.idHistoryField;
+            }
+            set
+            {
+                this.idHistoryField = value;
             }
         }
         
@@ -287,10 +287,10 @@ namespace WSUseExpenseManagerClient
         System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllGroupByUser", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllGroupByUserResponse")]
-        System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllGroupByUserAsync(int id);
+        System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllGroupByUserAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/createTransaction", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/createTransactionResponse")]
-        System.Threading.Tasks.Task<int> createTransactionAsync(int idGroup, int idUser, string description, float expense);
+        System.Threading.Tasks.Task<int> createTransactionAsync(int idGroup, string description, float expense);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllTransaction", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllTransactionResponse")]
         System.Threading.Tasks.Task<WSUseExpenseManagerClient.TransactionDTO[]> getAllTransactionAsync();
@@ -375,14 +375,14 @@ namespace WSUseExpenseManagerClient
             return base.Channel.getUserGroupsAsync();
         }
         
-        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllGroupByUserAsync(int id)
+        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllGroupByUserAsync()
         {
-            return base.Channel.getAllGroupByUserAsync(id);
+            return base.Channel.getAllGroupByUserAsync();
         }
         
-        public System.Threading.Tasks.Task<int> createTransactionAsync(int idGroup, int idUser, string description, float expense)
+        public System.Threading.Tasks.Task<int> createTransactionAsync(int idGroup, string description, float expense)
         {
-            return base.Channel.createTransactionAsync(idGroup, idUser, description, expense);
+            return base.Channel.createTransactionAsync(idGroup, description, expense);
         }
         
         public System.Threading.Tasks.Task<WSUseExpenseManagerClient.TransactionDTO[]> getAllTransactionAsync()

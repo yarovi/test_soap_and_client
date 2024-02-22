@@ -1,12 +1,13 @@
-﻿using WS.Unit06.User.Application.Model;
-using WSAuthClient;
+﻿using RestSharp;
+using WS.Unit06.User.Application.Model;
 using WSClient.Data.WS;
 
 namespace WS.Unit06.User.Application.Services.impl
 {
-    public class ApplicationServices : IApplicationServices
+	public class ApplicationServices : IApplicationServices
     {
-        public void CreateUser(UserDTO userDTO)
+		public HttpContext httpContext { get; set; }
+		public void CreateUser(UserDTO userDTO)
         {
             IDataServices dataws = new DataServicesClient();
             dataws.CreateUserAsync(MapDTOToUser(userDTO));
@@ -73,10 +74,5 @@ namespace WS.Unit06.User.Application.Services.impl
             dataws.DeleteUserAsync(id);
         }
 
-
-        public ResponseCustom validate()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

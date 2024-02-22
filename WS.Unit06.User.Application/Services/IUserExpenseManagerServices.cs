@@ -11,25 +11,25 @@ namespace WS.Unit06.User.Application.Services
         public int createGroup(string name);
 
         [OperationContract]
-        public List<GroupDTO> getAllCroup();
+        public GroupDTO[] getAllCroup();
 
         [OperationContract]
         public int deleteGroup(int id);
         [OperationContract]
         public int[] associateUserWithGroup(int[] ids, int groupId);
         [OperationContract]
-        public List<UserGroupDTO> getUserGroups();
+        public UserGroupDTO[] getUserGroups();
 
         [OperationContract]
-        public List<GroupDTO> getAllGroupByUser(int id);
+        public GroupDTO[] getAllGroupByUser();
 
         [OperationContract]
-        public int createTransaction(int idGroup, int idUser, string description, float expense);
+        public int createTransaction(int idGroup, string description, float expense);
 
         [OperationContract]
-        public List<TransactionDTO> getAllTransaction();
+        public TransactionDTO[] getAllTransaction();
 
         [OperationContract]
-        public List<HistoryDTO> getHistoryTransaction(int idGroup);
+        public HistoryDTO[] getHistoryTransaction(int idGroup);
 	}
 }

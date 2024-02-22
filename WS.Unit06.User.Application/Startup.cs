@@ -15,8 +15,8 @@ namespace WS.Unit06.User.Application
             services.TryAddSingleton<IUserExpenseManagerServices, UserExpenseManagerServices>();
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSoapCore();
-
-        }
+			services.AddSoapServiceOperationTuner(new ServiceOperation());
+		}
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -1,17 +1,18 @@
-﻿@using WSUseExpenseManagerClient
+﻿@using WSUseExpenseManagerClient;
+
 @{
 	ViewData["Title"] = "Home Page";
 }
 
 <h2>Registrar Gasto</h2>
 
-<form asp-action="saveTransaction">
+<form >
 
 	<div class="form-group">
 		<label for="groupId">Seleccionar un Grupo:</label>
 		<select id="idGroup" name="idGroup" class="form-select" aria-label="Default select example" onchange="updateTable()">
 			<option value="">Seleccione </option>
-			@foreach (GroupDTO group in Model.groupByUser)
+			@foreach (GroupDTO group in Model.groupDTOs)
 			{
 				<option value="@group.Id">@group.Name</option>
 			}
@@ -29,7 +30,7 @@
 
 
 
-	<button type="submit" class="btn btn-primary">Registrar Gasto</button>
+	<button type="button" class="btn btn-primary" id="saveTransaction" >Registrar Gasto</button>
 </form>
 <table id="tablaHistorial" class="table">
 	<thead>
@@ -67,7 +68,7 @@
 			var fila = tabla.insertRow();
 
 			var celdaId = fila.insertCell();
-			celdaId.innerHTML = historial.Id;
+			celdaId.innerHTML = historial.idHistory;
 
 			var celdaNombreGrupo = fila.insertCell();
 			celdaNombreGrupo.innerHTML = historial.nameGroup;
@@ -81,5 +82,57 @@
 			var celdaGasto = fila.insertCell();
 			celdaGasto.innerHTML = historial.expense;
 		});
+	}
+
+
+
+	document.getElementById("saveTransaction").addEventListener("click", function () {
+		saveTransaction();
+	});
+	function saveTransaction() {
+		var idGroup = document.getElementById("idGroup").value;
+		var description = document.getElementById("description").value;
+		var expenses = document.getElementById("expenses").value;
+
+		var formData = new FormData();
+		formData.append("idGroup", idGroup);
+		formData.append("description", description);
+		formData.append("expenses", expenses);
+
+		fetch('/Group/saveTransaction', {
+			method: 'POST',
+			body: formData
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('Error en la solicitud');
+				}
+				return response.json();
+			})
+			.then(data => {
+				console.log(data);
+
+				showAlertMessage("La operación  fue ejecutada exitosamente.");
+			})
+			.catch(error => {
+				console.error('Error en la solicitud:', error);
+			});
+	}
+
+	function showAlertMessage(message) {
+		var alertDiv = document.createElement("div");
+		alertDiv.classList.add("alert", "alert-success");
+		alertDiv.textContent = message;
+
+		var placeholderDiv = document.getElementById("liveAlertPlaceholder");
+
+		placeholderDiv.appendChild(alertDiv);
+
+		setTimeout(function () {
+			alertDiv.classList.add("fade");
+			setTimeout(function () {
+				alertDiv.remove();
+			}, 1000);
+		}, 5000);
 	}
 </script>
