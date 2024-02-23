@@ -243,25 +243,27 @@ namespace WS.Unit06.User.Application.Services.impl
             var request = new RestRequest("/api/transactions/{groupId}/history", Method.Get);
             request.AddParameter("groupId", idGroup, ParameterType.UrlSegment);
             dynamic response = _restClient.ExecuteAsync(request).Result;
-            var historyDTOs = new List<HistoryDTO>();
-            if (response.IsSuccessStatusCode)
+			List<HistoryDTO> mappedHistoryList = new List<HistoryDTO>();
+			if (response.IsSuccessStatusCode)
             {
                 var content = response.Content;
-				var varItems = JsonConvert.DeserializeObject< HistoryDTO[]> (content);
-                foreach (var obj in varItems)
-                {
-                    HistoryDTO userGroupDTO = new HistoryDTO
-                    {
-						idHistory = obj.idHistory,
-                        //nameGroup = obj.details.userGroup.groupCategory.name,
-                        //nameUser = nameFull,
-                        //individualTotal = "",
-                        //expense = obj.transaction.expense
-                    };
-                    historyDTOs.Add(userGroupDTO);
-                }
+				List<dynamic> historyList = JsonConvert.DeserializeObject<List<dynamic>>(content);
+
+				foreach (var history in historyList)
+				{
+					HistoryDTO historyDTO = new HistoryDTO
+					{
+						idHistory = history.idHistory,
+						nameGroup = history.details.userGroup.groupCategory.name,
+						nameUser = history.details.userGroup.userId.ToString(),
+						individualTotal = history.total.ToString(),
+						expense = history.details.transaction.expense.ToString()
+					};
+
+					mappedHistoryList.Add(historyDTO);
+				}
             }
-            return historyDTOs.ToArray();
+            return mappedHistoryList.ToArray();
         }
 
         private bool validateToken()
