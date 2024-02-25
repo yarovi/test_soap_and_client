@@ -5,7 +5,7 @@
 }
 
 <h2>Registrar Gasto</h2>
-
+<div id="liveAlertPlaceholder"></div>
 <form >
 
 	<div class="form-group">
@@ -111,17 +111,23 @@
 			})
 			.then(data => {
 				console.log(data);
-
-				showAlertMessage("La operación  fue ejecutada exitosamente.");
+				if(data >0)
+					showAlertMessage("La operación  fue ejecutada exitosamente con id: " + data, "success");
+				else
+					showAlertMessage("Hay problemas en hacer el registro :(", "success");
 			})
 			.catch(error => {
-				console.error('Error en la solicitud:', error);
+				console.error('Error en la solicitud:', "error");
 			});
 	}
 
-	function showAlertMessage(message) {
+	function showAlertMessage(message,type) {
 		var alertDiv = document.createElement("div");
-		alertDiv.classList.add("alert", "alert-success");
+		if (type === "success") {
+			alertDiv.classList.add("alert-success");
+		} else if (type === "error") {
+			alertDiv.classList.add("alert-danger");
+		}
 		alertDiv.textContent = message;
 
 		var placeholderDiv = document.getElementById("liveAlertPlaceholder");
