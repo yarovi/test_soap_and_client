@@ -27,8 +27,8 @@ namespace WS.Unit06.User.Application.Services
         [OperationContract]
         public int createTransaction(int idGroup, string description, float expense);
 
-        [OperationContract]
-        public TransactionDTO[] getAllTransaction();
+       // [OperationContract]
+        //public TransactionDTO[] getAllTransaction();
 
         [OperationContract]
         public HistoryDTO[] getHistoryTransaction(int idGroup);

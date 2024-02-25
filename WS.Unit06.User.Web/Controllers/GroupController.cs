@@ -28,7 +28,6 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			
 			userDTOs = clientUser.getUsersAsync().Result;
 		}
-
 		public IActionResult indexGroup()
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
@@ -50,7 +49,6 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
 			var response = await client.createGroupAsync(name);
 			Debug.WriteLine("valor:" + response);
-			//TempData["idGroup"] = response;
 			return RedirectToAction("indexGroup", "Group");
 		}
 		public IActionResult deleteGroup(int id)
@@ -218,7 +216,7 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 				}
 				else
 				{
-					return RedirectToAction("indexTransaction", "Group");
+					return Json("No se puedo realizar la solicitud de creación.");
 				}
 			}
 		}
@@ -228,6 +226,20 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
 			HistoryDTO[] historyDTOs =await client.getHistoryTransactionAsync(idGroup);
+			foreach (var h in historyDTOs)
+			{
+				UserDTO itemFound = userDTOs.FirstOrDefault(f => f.Id == int.Parse(h.nameUser));
+				if (itemFound != null)
+					h.nameUser = itemFound.Name;
+			}
+			var nameUser = HttpContext.Session.GetString("username");
+			UserDTO ownUser = userDTOs.FirstOrDefault(f => f.Name == nameUser);
+			//if (ownUser != null)
+			//{
+			//	string id = ""+ownUser.Id;
+			//	HistoryDTO hgroup = historyDTOs.FirstOrDefault(f => f.nameUser == id);
+			//	hgroup.nameUser = ownUser.Name;
+			//}
 			return Json(historyDTOs);
 		}
 

@@ -6,11 +6,11 @@
 
 <h2>Registrar Gasto</h2>
 <div id="liveAlertPlaceholder"></div>
-<form >
+<form>
 
 	<div class="form-group">
 		<label for="groupId">Seleccionar un Grupo:</label>
-		<select id="idGroup" name="idGroup" class="form-select" aria-label="Default select example" onchange="updateTable()">
+		<select id="idGroup" name="idGroup" class="form-select" aria-label="Default select example">
 			<option value="">Seleccione </option>
 			@foreach (GroupDTO group in Model.groupDTOs)
 			{
@@ -27,10 +27,16 @@
 		<label for="expenses">Monto del Gasto:</label>
 		<input type="number" id="expenses" name="expenses" class="form-control" />
 	</div>
+	<br />
 
-
-
-	<button type="button" class="btn btn-primary" id="saveTransaction" >Registrar Gasto</button>
+	<div class="button-container text-center">
+		<div class="form-group d-inline-block mx-2">
+			<button type="button" class="btn btn-primary" id="saveTransaction">Registrar Gasto</button>
+		</div>
+		<div class="form-group d-inline-block mx-2">
+			<button type="button" id="showhistory" class="btn btn-primary" onclick="updateTable()">Mostrar</button>
+		</div>
+	</div>
 </form>
 <table id="tablaHistorial" class="table">
 	<thead>
@@ -48,15 +54,19 @@
 <script>
 	function updateTable() {
 		var groupId = document.getElementById("idGroup").value;
+		if (groupId == 0) {
+			showAlertMessage("Seleciona un Grupo para Mostrar Gastos", "error");
+		} else {
+			fetch('/Group/getHistory?idGroup=' + groupId)
+				.then(response => response.json())
+				.then(data => {
+					actualizarTabla(data);
+				})
+				.catch(error => {
+					console.error('Error al obtener los datos de la tabla:', error);
+				});
+		}
 
-		fetch('/Group/getHistory?idGroup=' + groupId)
-			.then(response => response.json())
-			.then(data => {
-				actualizarTabla(data);
-			})
-			.catch(error => {
-				console.error('Error al obtener los datos de la tabla:', error);
-			});
 	}
 
 	function actualizarTabla(data) {
@@ -87,7 +97,25 @@
 
 
 	document.getElementById("saveTransaction").addEventListener("click", function () {
-		saveTransaction();
+		var groupId = document.getElementById("idGroup").value;
+		var description = document.getElementById("description").value;
+		var expenses = document.getElementById("expenses").value;
+
+		if (groupId === "") {
+			showAlertMessage("Selecciona un Grupo para Mostrar Gastos", "error");
+		}
+		else if (description.trim() === "") {
+			showAlertMessage("Ingrese una descripción para el gasto", "error");
+		}
+		else if (expenses.trim() === "") {
+			showAlertMessage("Ingrese el monto del gasto", "error");
+		} else {
+			saveTransaction();
+			document.getElementById("idGroup").value = "";
+			document.getElementById("description").value = "";
+			document.getElementById("expenses").value = "";
+		}
+
 	});
 	function saveTransaction() {
 		var idGroup = document.getElementById("idGroup").value;
@@ -111,17 +139,17 @@
 			})
 			.then(data => {
 				console.log(data);
-				if(data >0)
+				if (data > 0)
 					showAlertMessage("La operación  fue ejecutada exitosamente con id: " + data, "success");
 				else
-					showAlertMessage("Hay problemas en hacer el registro :(", "success");
+					showAlertMessage("Hay problemas en hacer el registro :(", "error");
 			})
 			.catch(error => {
 				console.error('Error en la solicitud:', "error");
 			});
 	}
 
-	function showAlertMessage(message,type) {
+	function showAlertMessage(message, type) {
 		var alertDiv = document.createElement("div");
 		if (type === "success") {
 			alertDiv.classList.add("alert-success");

@@ -216,7 +216,7 @@ namespace WS.Unit06.User.Application.Services.impl
 			}
 			return 0;
 		}
-
+		/*
 		public TransactionDTO[] getAllTransaction()
 		{
 			var request = new RestRequest("/api/transactions", Method.Get);
@@ -232,7 +232,7 @@ namespace WS.Unit06.User.Application.Services.impl
 			{
 				return null;
 			}
-		}
+		}*/
 
 		public HistoryDTO[] getHistoryTransaction(int idGroup)
 		{
