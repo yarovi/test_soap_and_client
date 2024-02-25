@@ -32,5 +32,7 @@ namespace WS.Unit06.User.Application.Services
 
         [OperationContract]
         public HistoryDTO[] getHistoryTransaction(int idGroup);
+        [OperationContract]
+        public bool isOwner();
 	}
 }

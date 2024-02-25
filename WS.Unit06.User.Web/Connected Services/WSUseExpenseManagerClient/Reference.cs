@@ -118,73 +118,6 @@ namespace WSUseExpenseManagerClient
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="TransactionDTO", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.Model")]
-    public partial class TransactionDTO : object
-    {
-        
-        private string IdField;
-        
-        private string descriptionField;
-        
-        private float expenseField;
-        
-        private string fechaField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Id
-        {
-            get
-            {
-                return this.IdField;
-            }
-            set
-            {
-                this.IdField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string description
-        {
-            get
-            {
-                return this.descriptionField;
-            }
-            set
-            {
-                this.descriptionField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public float expense
-        {
-            get
-            {
-                return this.expenseField;
-            }
-            set
-            {
-                this.expenseField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string fecha
-        {
-            get
-            {
-                return this.fechaField;
-            }
-            set
-            {
-                this.fechaField = value;
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="HistoryDTO", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.Model")]
     public partial class HistoryDTO : object
     {
@@ -293,12 +226,12 @@ namespace WSUseExpenseManagerClient
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/createTransaction", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/createTransactionResponse")]
         System.Threading.Tasks.Task<int> createTransactionAsync(int idGroup, string description, float expense);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllTransaction", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllTransactionResponse")]
-        System.Threading.Tasks.Task<WSUseExpenseManagerClient.TransactionDTO[]> getAllTransactionAsync();
-        
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getHistoryTransaction", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getHistoryTransactionRespo" +
             "nse")]
         System.Threading.Tasks.Task<WSUseExpenseManagerClient.HistoryDTO[]> getHistoryTransactionAsync(int idGroup);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/isOwner", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/isOwnerResponse")]
+        System.Threading.Tasks.Task<bool> isOwnerAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -386,14 +319,14 @@ namespace WSUseExpenseManagerClient
             return base.Channel.createTransactionAsync(idGroup, description, expense);
         }
         
-        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.TransactionDTO[]> getAllTransactionAsync()
-        {
-            return base.Channel.getAllTransactionAsync();
-        }
-        
         public System.Threading.Tasks.Task<WSUseExpenseManagerClient.HistoryDTO[]> getHistoryTransactionAsync(int idGroup)
         {
             return base.Channel.getHistoryTransactionAsync(idGroup);
+        }
+        
+        public System.Threading.Tasks.Task<bool> isOwnerAsync()
+        {
+            return base.Channel.isOwnerAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

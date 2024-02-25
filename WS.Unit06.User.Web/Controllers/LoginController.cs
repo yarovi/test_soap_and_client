@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using WS.Unit06.User.Web.Models;
 using WSAuthClient;
+using WSUseExpenseManagerClient;
 
 namespace WS.Unit06.User.Web.Controllers
 {
@@ -37,7 +40,8 @@ namespace WS.Unit06.User.Web.Controllers
 					HttpContext.Session.SetString("token", token);
 					HttpContext.Session.SetString("username", username);
 					Console.WriteLine("iniciando login ..!");
-                    return RedirectToAction("Index", "Home");
+                    setOwner();
+					return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -56,6 +60,24 @@ namespace WS.Unit06.User.Web.Controllers
 			HttpContext.Session.Remove("SelectedUsers");
 			return RedirectToAction("StartLogin", "Login"); 
         }
+
+        private void setOwner()
+        {
+			string token = HttpContext.Session.GetString("token");
+			var clientExpense = new UserExpenseManagerServicesClient();
+
+			using (var scope = new OperationContextScope(clientExpense.InnerChannel))
+			{
+				HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
+				httpRequestProperty.Headers["token"] = token;
+				OperationContext.Current.
+					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
+				httpRequestProperty;
+				var isOwner = clientExpense.isOwnerAsync().Result;
+				TempData["isOwner"] = isOwner;
+
+			}
+		}
     }
 	
 }

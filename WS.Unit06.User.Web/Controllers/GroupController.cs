@@ -18,15 +18,13 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		private SelectedUsers? selectedUsers;
 		GroupDTO[] groupDTOs;
 		UserDTO[] userDTOs;
-
 		public GroupController()
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
 			groupDTOs = client.getAllCroupAsync().Result;
-
 			var clientUser = new wsClientApplication.ApplicationServicesClient();
-			
 			userDTOs = clientUser.getUsersAsync().Result;
+
 		}
 		public IActionResult indexGroup()
 		{
@@ -234,12 +232,7 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			}
 			var nameUser = HttpContext.Session.GetString("username");
 			UserDTO ownUser = userDTOs.FirstOrDefault(f => f.Name == nameUser);
-			//if (ownUser != null)
-			//{
-			//	string id = ""+ownUser.Id;
-			//	HistoryDTO hgroup = historyDTOs.FirstOrDefault(f => f.nameUser == id);
-			//	hgroup.nameUser = ownUser.Name;
-			//}
+
 			return Json(historyDTOs);
 		}
 
@@ -267,9 +260,6 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			HttpContext.Session.SetString("SelectedUsers", JsonConvert.SerializeObject(selectedUsers));
 		}
 
-		public IActionResult AccessRestrict()
-		{
-			return View("accessRestrict");
-		}
+
 	}
 }

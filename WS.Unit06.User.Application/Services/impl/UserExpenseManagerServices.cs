@@ -5,6 +5,8 @@ using System.ServiceModel.Channels;
 using System.ServiceModel;
 using WS.Unit06.User.Application.util;
 using WS.Unit06.User.Application.Model;
+using Newtonsoft.Json.Linq;
+using System.Net;
 
 namespace WS.Unit06.User.Application.Services.impl
 {
@@ -103,6 +105,10 @@ namespace WS.Unit06.User.Application.Services.impl
 						int code = getLocationUrl(pathUrl);
 						codesList.Add(code);
 					}
+					var requestUpdate = new RestRequest("/api/user-groups/{groupId}/ownermaster/{newMasterId}", Method.Put);
+					requestUpdate.AddParameter("groupId", groupId, ParameterType.UrlSegment);
+					requestUpdate.AddParameter("newMasterId", userId, ParameterType.UrlSegment);
+					var responseUpdate = _restClient.ExecuteAsync(requestUpdate).Result;
 				}
 			}
 
@@ -262,6 +268,26 @@ namespace WS.Unit06.User.Application.Services.impl
 			return mappedHistoryList.ToArray();
 		}
 
+
+		public bool isOwner()
+		{
+			bool result = false;
+			if (validateToken())
+			{
+				var request = new RestRequest("/api/user-groups/owner/{userId}", Method.Get);
+				request.AddHeader("Accept", MediaTypeNames.Application.Json);
+				request.AddParameter("userId", userId, ParameterType.UrlSegment);
+				dynamic response = _restClient.ExecuteAsync(request).Result;
+				if (response.IsSuccessStatusCode)
+				{
+					var content = response.Content;
+					var responseObject = JsonConvert.DeserializeObject(content);
+					result = responseObject.owner;
+				}
+			}
+			return result;
+		}
+
 		private bool validateToken()
 		{
 			var clientAuth = new WSAuthClientSOAP.AuthServicesClient();
@@ -284,6 +310,7 @@ namespace WS.Unit06.User.Application.Services.impl
 					return false;
 			}
 		}
+		
 
 
 	}
