@@ -59,9 +59,9 @@ namespace WSUseExpenseManagerClient
         
         private string NameGroupField;
         
-        private string NameUserField;
+        private string fullNameUserField;
         
-        private float totalAmmountField;
+        private int userIdField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public int Id
@@ -90,28 +90,28 @@ namespace WSUseExpenseManagerClient
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string NameUser
+        public string fullNameUser
         {
             get
             {
-                return this.NameUserField;
+                return this.fullNameUserField;
             }
             set
             {
-                this.NameUserField = value;
+                this.fullNameUserField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public float totalAmmount
+        public int userId
         {
             get
             {
-                return this.totalAmmountField;
+                return this.userIdField;
             }
             set
             {
-                this.totalAmmountField = value;
+                this.userIdField = value;
             }
         }
     }
@@ -283,8 +283,9 @@ namespace WSUseExpenseManagerClient
             "onse")]
         System.Threading.Tasks.Task<int[]> associateUserWithGroupAsync(int[] ids, int groupId);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getUserGroups", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getUserGroupsResponse")]
-        System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getUserGroupsByUserId", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getUserGroupsByUserIdRespo" +
+            "nse")]
+        System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsByUserIdAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllGroupByUser", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/getAllGroupByUserResponse")]
         System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllGroupByUserAsync();
@@ -370,9 +371,9 @@ namespace WSUseExpenseManagerClient
             return base.Channel.associateUserWithGroupAsync(ids, groupId);
         }
         
-        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsAsync()
+        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.UserGroupDTO[]> getUserGroupsByUserIdAsync()
         {
-            return base.Channel.getUserGroupsAsync();
+            return base.Channel.getUserGroupsByUserIdAsync();
         }
         
         public System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> getAllGroupByUserAsync()

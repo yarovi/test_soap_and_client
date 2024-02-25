@@ -3,6 +3,7 @@
 
 using Newtonsoft.Json;
 using WSClient.ApplicationWS;
+using WSUseExpenseManagerClient;
 
 
 namespace WS.Unit06.User.Web.Models
@@ -10,7 +11,7 @@ namespace WS.Unit06.User.Web.Models
 	public class SelectedUsers
 	{
 		[JsonProperty("userdtos")]
-		private List<UserDTO> _selectedUsers = new List<UserDTO>();
+		private List<UserGroupDTO> _selectedUsers = new List<UserGroupDTO>();
 
 		public SelectedUsers()
 		{
@@ -18,7 +19,7 @@ namespace WS.Unit06.User.Web.Models
 
 		public void AddUser(int userId, string fullName,string fullNameGroup)
 		{
-			var user = new UserDTO { Id = userId, Name = fullName,fullNameGroup=fullNameGroup };
+			var user = new UserGroupDTO { Id = userId, fullNameUser = fullName,NameGroup=fullNameGroup };
 			if (!_selectedUsers.Any(u => u.Id == userId))
 			{
 				_selectedUsers.Add(user);
@@ -39,7 +40,7 @@ namespace WS.Unit06.User.Web.Models
 			return _selectedUsers.Any(u => u.Id == userId);
 		}
 
-		public List<UserDTO> GetAllUsers()
+		public List<UserGroupDTO> GetAllUsers()
 		{
 			return _selectedUsers;
 		}

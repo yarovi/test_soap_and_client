@@ -15,19 +15,7 @@ namespace WS.Unit06.User.Web.Controllers
 		[HttpPost]
 		public IActionResult startLogin(string username,string pwd)
 		{
-            /*
-			var clientApp = new AuthServices();
-			var responseAuth = clientApp.authenticate();
-			if (responseAuth != null) {
-				var token = OperationContext.Current.OutgoingMessageHeaders.GetHeader<string>("token","");
-				HttpContext.Session.Set("token", Encoding.UTF8.GetBytes(token));
-                Console.WriteLine("iniciando loginc on los datos");
-                return RedirectToAction("Index", "Home");
-            }
-            else
-			{
-                return RedirectToAction("LoginFailed", "Login");
-            }*/
+
             var client = new AuthServicesClient();
             using (var scope = new OperationContextScope(client.InnerChannel))
             {
@@ -47,8 +35,8 @@ namespace WS.Unit06.User.Web.Controllers
 
 					string token = httpResponse.Headers["token"];
 					HttpContext.Session.SetString("token", token);
-
-                    Console.WriteLine("iniciando login ..!");
+					HttpContext.Session.SetString("username", username);
+					Console.WriteLine("iniciando login ..!");
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -65,7 +53,8 @@ namespace WS.Unit06.User.Web.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("token");
-            return RedirectToAction("StartLogin", "Login"); 
+			HttpContext.Session.Remove("SelectedUsers");
+			return RedirectToAction("StartLogin", "Login"); 
         }
     }
 	

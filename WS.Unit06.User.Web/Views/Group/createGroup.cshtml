@@ -5,7 +5,15 @@
 
 <h2>Crear Grupo</h2>
 <div id="liveAlertPlaceholder"></div>
+@if (ViewData["Mensaje"] != null)
+{
 
+	<div class="form-group">
+		<div class="alert alert-danger" role="alert">
+			@ViewData["Mensaje"]
+		</div>
+	</div>
+}
 <form asp-controller="Group" asp-action="createGroup" method="post">
 	<div class="form-group">
 		<label asp="name">Nombre del Grupo:</label>

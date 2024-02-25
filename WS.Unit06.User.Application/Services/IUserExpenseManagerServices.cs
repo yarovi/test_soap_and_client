@@ -18,9 +18,10 @@ namespace WS.Unit06.User.Application.Services
         [OperationContract]
         public int[] associateUserWithGroup(int[] ids, int groupId);
         [OperationContract]
-        public UserGroupDTO[] getUserGroups();
+        public UserGroupDTO[] getUserGroupsByUserId();
 
-        [OperationContract]
+
+		[OperationContract]
         public GroupDTO[] getAllGroupByUser();
 
         [OperationContract]

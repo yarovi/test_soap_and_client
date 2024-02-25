@@ -23,7 +23,9 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
 			groupDTOs = client.getAllCroupAsync().Result;
+
 			var clientUser = new wsClientApplication.ApplicationServicesClient();
+			
 			userDTOs = clientUser.getUsersAsync().Result;
 		}
 
@@ -34,7 +36,6 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 
 			return View("createGroup", groupDTOs);
 		}
-
 		public IActionResult groupUser()
 		{
 			return View();
@@ -49,7 +50,7 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
 			var response = await client.createGroupAsync(name);
 			Debug.WriteLine("valor:" + response);
-			TempData["idGroup"] = response;
+			//TempData["idGroup"] = response;
 			return RedirectToAction("indexGroup", "Group");
 		}
 		public IActionResult deleteGroup(int id)
@@ -65,12 +66,13 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		//----------------------------------------------------------------------
 		public IActionResult indexGroupUser()
 		{
+			string username = HttpContext.Session.GetString("username");
+			userDTOs = userDTOs.Where(user => user.Name != username).ToArray();
 			var CustomDtos = new
 			{
 				userDTOs,
 				groupDTOs
 			};
-
 			return View("groupUser", CustomDtos);
 		}
 
@@ -89,24 +91,76 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		[HttpPost]
 		public async Task<IActionResult> saveGroupUserForm(int idGroup)
 		{
-			selectedUsers = GetSelectedUsersFromSession();
-			if (selectedUsers != null)
+
+			string token = HttpContext.Session.GetString("token");
+			var client = new wsClientExpense.UserExpenseManagerServicesClient();
+
+			using (var scope = new OperationContextScope(client.InnerChannel))
 			{
-				var client = new wsClientExpense.UserExpenseManagerServicesClient();
-				int[] ids =  selectedUsers.GetAllUsers().Select(i => i.Id).ToArray();
-				var response =await client.
-					associateUserWithGroupAsync(ids, 
-					idGroup);
-				HttpContext.Session.Remove("SelectedUsers");
-				return Json(response);
+
+				HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
+				httpRequestProperty.Headers["token"] = token;
+				OperationContext.Current.
+					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
+					httpRequestProperty;
+
+				selectedUsers = GetSelectedUsersFromSession();
+				if (selectedUsers.GetAllUsers().Count > 0)
+				{
+					int[] ids = selectedUsers.GetAllUsers().Select(i => i.Id).ToArray();
+					var response = await client.
+						associateUserWithGroupAsync(ids,
+						idGroup);
+					HttpContext.Session.Remove("SelectedUsers");
+					return Json(response);
+				}
+				return Json("No se han seleccionado usuarios para asociar al grupo");
 			}
-			return null;
 		}
 		[HttpDelete]
 		public IActionResult removeUserGroup(int id)
 		{
 			selectedUsers.RemoveUser(id);
 			return View("groupUser", selectedUsers);
+		}
+		[HttpGet]
+		public async Task<IActionResult> getAllGroupUserByUserId()
+		{
+			var client = new wsClientExpense.UserExpenseManagerServicesClient();
+			string token = HttpContext.Session.GetString("token");
+			using (var scope = new OperationContextScope(client.InnerChannel))
+			{
+
+				HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
+				httpRequestProperty.Headers["token"] = token;
+				OperationContext.Current.
+					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
+					httpRequestProperty;
+				UserGroupDTO[] userGroupDTOsRegister = await client.getUserGroupsByUserIdAsync();
+				if (userGroupDTOsRegister != null)
+				{
+					Debug.Print("imprimiendo repuesta:" + userGroupDTOsRegister);
+					foreach (var g in userGroupDTOsRegister)
+					{
+						UserDTO itemFound = userDTOs.FirstOrDefault(f => f.Id == int.Parse(g.fullNameUser));
+						if (itemFound!=null) {
+							g.userId = itemFound.Id;
+							g.fullNameUser = itemFound.Name;
+						}
+					}
+					var nameUser= HttpContext.Session.GetString("username");
+					UserDTO ownUser = userDTOs.FirstOrDefault(f => f.Name == nameUser);
+					if (ownUser != null)
+					{
+						int id= ownUser.Id;
+						UserGroupDTO groupUser = userGroupDTOsRegister.FirstOrDefault(f => f.userId == id);
+						groupUser.fullNameUser = ownUser.Name;
+						groupUser.userId = ownUser.Id;
+					}
+						return  Json(userGroupDTOsRegister);
+				}
+			}
+			return RedirectToAction("AccessRestrict", "Group");
 		}
 		//-----------------------------------------------------
 		//------------------------------------ TRANSACTIONS
@@ -124,7 +178,7 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
 					httpRequestProperty;
 
-				GroupDTO[] groupDTOs = client.getAllGroupByUserAsync().Result;
+				GroupDTO[] groupDTOs = await client.getAllGroupByUserAsync();
 				if (groupDTOs != null  	)
 				{
 					var CustomGroupByUser = new
@@ -170,10 +224,10 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult getHistory(int idGroup)
+		public async Task<IActionResult> getHistory(int idGroup)
 		{
 			var client = new wsClientExpense.UserExpenseManagerServicesClient();
-			HistoryDTO[] historyDTOs = client.getHistoryTransactionAsync(idGroup).Result;
+			HistoryDTO[] historyDTOs =await client.getHistoryTransactionAsync(idGroup);
 			return Json(historyDTOs);
 		}
 
@@ -199,6 +253,11 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		private void SaveSelectedUsersToSession(SelectedUsers selectedUsers)
 		{
 			HttpContext.Session.SetString("SelectedUsers", JsonConvert.SerializeObject(selectedUsers));
+		}
+
+		public IActionResult AccessRestrict()
+		{
+			return View("accessRestrict");
 		}
 	}
 }
