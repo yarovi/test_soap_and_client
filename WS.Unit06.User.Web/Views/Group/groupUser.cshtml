@@ -3,7 +3,7 @@
 @{
 	ViewData["Title"] = "Index";
 }
-@if ((bool)(TempData["isOwner"] ?? false))
+@if (Model.isOwner)
 {
 	<h2>Agregar Usuario al Grupo</h2>
 	<div id="liveAlertPlaceholder"></div>

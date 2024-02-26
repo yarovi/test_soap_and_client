@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using WS.Unit06.User.Web.Models;
+using System.Text;
 using WSAuthClient;
 using WSUseExpenseManagerClient;
 
@@ -74,7 +72,8 @@ namespace WS.Unit06.User.Web.Controllers
 					OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
 				httpRequestProperty;
 				var isOwner = clientExpense.isOwnerAsync().Result;
-				TempData["isOwner"] = isOwner;
+				byte[] isOwnerBytes = BitConverter.GetBytes(isOwner);
+				HttpContext.Session.Set("isOwner", isOwnerBytes);
 
 			}
 		}

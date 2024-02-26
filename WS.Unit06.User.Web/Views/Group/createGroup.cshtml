@@ -31,7 +31,7 @@
 			<tr>
 				<th>Código</th>
 				<th>Name Grupo</th>
-				<th>Acciones</th>
+				@* <th>Acciones</th> *@
 			</tr>
 		</thead>
 		<tbody>
@@ -40,9 +40,9 @@
 				<tr>
 					<td>@group.Id</td>
 					<td>@group.Name</td>
-					<td>
-						@Html.ActionLink("Eliminar", "deleteGroup", new { id = group.Id }, new { @class = "btn btn-danger" })
-					</td>
+					<!-- <td>-->
+					@* @Html.ActionLink("Eliminar", "deleteGroup", new { id = group.Id }, new { @class = "btn btn-danger" }) *@
+					<!-- </td> --> 
 				</tr>
 			}
 		</tbody>

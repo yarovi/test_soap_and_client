@@ -63,11 +63,13 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		public IActionResult indexGroupUser()
 		{
 			string username = HttpContext.Session.GetString("username");
+			bool isOwner = BitConverter.ToBoolean(HttpContext.Session.Get("isOwner"));
 			userDTOs = userDTOs.Where(user => user.Name != username).ToArray();
 			var CustomDtos = new
 			{
 				userDTOs,
-				groupDTOs
+				groupDTOs,
+				isOwner
 			};
 			return View("groupUser", CustomDtos);
 		}

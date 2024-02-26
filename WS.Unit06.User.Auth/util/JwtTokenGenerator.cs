@@ -12,12 +12,9 @@ namespace WS.Unit06.User.Application.util
         public string GenerateJwtToken(Users user)
         {
             var secretKey = GenerateSecretKey();
-            // Configurar las claims del token
             var claims = new ClaimsIdentity();
             claims.AddClaim(new Claim(ClaimTypes.Name, user.Username));
             claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            //claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.));
-
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -25,7 +22,7 @@ namespace WS.Unit06.User.Application.util
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(3),
                 SigningCredentials = creds
             };
             var tokenHandler = new JwtSecurityTokenHandler();
