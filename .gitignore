@@ -3,9 +3,12 @@
 ################################################################################
 
 /.vs
-/WS.Unit06.User.Application/bin/Debug/net7.0
+/WS.Unit06.User.Application/bin
 /WS.Unit06.User.Application/obj
-/WS.Unit06.User.Data/bin/Debug/net7.0
-/WS.Unit06.User.Web/bin/Debug/net7.0
+/WS.Unit06.User.Data/bin
+/WS.Unit06.User.Web/bin
 /WS.Unit06.User.Web/obj
-/WS.Unit06.User.Auth/obj/Debug/net7.0
+/WS.Unit06.User.Auth/obj
+/WS.Unit06.User.Auth/bin
+/WS.Unit06.User.Data/ojb
+
