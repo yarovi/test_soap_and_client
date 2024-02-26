@@ -3,5 +3,6 @@
     public static class GlobalSetting
     {
         public static string ApiUrl { get; set; }
+        public static string ExternalApiUrl { get; set; }
     }
 }

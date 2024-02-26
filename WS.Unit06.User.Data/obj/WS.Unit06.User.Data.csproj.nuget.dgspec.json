@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Yasmani\\source\\repos\\WS.Unit06.User\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj": {}
+    "C:\\Users\\dewda\\Source\\Repos\\pgg_v2\\yarovi\\test_soap_and_client\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Yasmani\\source\\repos\\WS.Unit06.User\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj": {
+    "C:\\Users\\dewda\\Source\\Repos\\pgg_v2\\yarovi\\test_soap_and_client\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Yasmani\\source\\repos\\WS.Unit06.User\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj",
+        "projectUniqueName": "C:\\Users\\dewda\\Source\\Repos\\pgg_v2\\yarovi\\test_soap_and_client\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj",
         "projectName": "WS.Unit06.User.Data",
-        "projectPath": "C:\\Users\\Yasmani\\source\\repos\\WS.Unit06.User\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj",
-        "packagesPath": "C:\\Users\\Yasmani\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Yasmani\\source\\repos\\WS.Unit06.User\\WS.Unit06.User.Data\\obj\\",
+        "projectPath": "C:\\Users\\dewda\\Source\\Repos\\pgg_v2\\yarovi\\test_soap_and_client\\WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj",
+        "packagesPath": "C:\\Users\\dewda\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dewda\\Source\\Repos\\pgg_v2\\yarovi\\test_soap_and_client\\WS.Unit06.User.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Yasmani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dewda\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,6 +33,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -80,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
