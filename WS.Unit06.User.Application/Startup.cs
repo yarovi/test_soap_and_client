@@ -5,7 +5,6 @@ using System.ServiceModel;
 using WS.Unit06.User.Application.Services;
 using WS.Unit06.User.Application.Services.impl;
 using WS.Unit06.User.Application.util;
-using static WS.Unit06.User.Application.Services.ISupermarketOffersServices;
 namespace WS.Unit06.User.Application
 {
     public class Startup
@@ -14,7 +13,6 @@ namespace WS.Unit06.User.Application
         {
             services.TryAddSingleton<IApplicationServices, ApplicationServices>();
             services.TryAddSingleton<IUserExpenseManagerServices, UserExpenseManagerServices>();
-            services.TryAddSingleton<ISupermarketOffersServices, SupermarketOffersServices>();
             services.AddMvc(x => x.EnableEndpointRouting = false);
             services.AddSoapCore();
 			services.AddSoapServiceOperationTuner(new ServiceOperation());
@@ -42,12 +40,6 @@ namespace WS.Unit06.User.Application
             new BasicHttpBinding(),
             SoapSerializer.DataContractSerializer,
             false, null, null, true, true);
-
-            app.UseSoapEndpoint<ISupermarketOffersServices>(
-                "/SupermarketOffertServices.svc",
-                new BasicHttpBinding(),
-                SoapSerializer.DataContractSerializer,
-                false, null, null, true, true);
 
 
             app.UseMvc();
