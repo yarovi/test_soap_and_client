@@ -20,3 +20,135 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+/*OFFERS GRID STYLE*/
+
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+
+
+.grid-item {
+    flex: 1 0 21%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+    .grid-item:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+.product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.product-title {
+    font-size: 16px;
+    color: #505050;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 20px;
+    color: #dc3545;
+    font-weight: bold;
+}
+
+    .price small {
+        color: gray;
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+.original-price {
+    font-size: 16px;
+    color: #666;
+    text-decoration: line-through;
+    margin-right: 5px;
+}
+
+.discount {
+    font-size: 18px;
+    color: #dc3545;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.product-info {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.prices-field {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.link-product {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #198754;
+    border: none;
+    border-radius: 5px;
+}
+
+    .link-product:hover {
+        background-color: #30af74;
+        color: white;
+    }
+
+    .link-product:active {
+        background-color: #ffaf56;
+        transform: translateY(4px);
+    }
+
+@media (max-width: 768px) {
+    .grid-item {
+        margin: 5px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .grid-item {
+        flex: 1 0 30%;
+    }
+}
+
+@media (max-width: 800px) {
+    .grid-item {
+        flex: 1 0 46%;
+    }
+}
+
+@media (max-width: 500px) {
+    .grid-item {
+        flex: 1 0 100%;
+    }
+}

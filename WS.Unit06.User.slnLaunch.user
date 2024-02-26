@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Name": "WS.Unit06.User.Data\\WS.Unit06.User.Data.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
+      },
+      {
+        "Name": "WS.Unit06.User.Auth\\WS.Unit06.User.Auth.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
+      },
+      {
+        "Name": "WS.Unit06.User.Application\\WS.Unit06.User.Application.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
+      },
+      {
+        "Name": "WS.Unit06.User.Web\\WS.Unit06.User.Web.csproj",
+        "Action": "Start",
+        "DebugTarget": ""
+      }
+    ]
+  }
+]

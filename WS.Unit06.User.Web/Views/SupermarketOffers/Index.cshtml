@@ -1,0 +1,53 @@
+﻿@model Web.Mvc.Ofertas.Controllers.SupermarketOffersController.OffersViewModel
+
+
+ 
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Productos de Oferta</h1>
+<hr />
+<h2>Mercadona</h2>
+<p>Aprovecha los últimos descuentos!</p>
+
+<div class="grid-container">
+    @foreach (var item in Model.MercadonaOffers)
+    {
+        <div class="grid-item">
+            <img class="product-image" src="@item.imageUrl" alt="@item.title">
+            <div class="product-info">
+                <h3 class="product-title">@Html.DisplayFor(modelItem => item.title)</h3>
+                <div class="prices-field">
+                    <span class="original-price">@Html.DisplayFor(modelItem => item.previousPrice)€</span>
+                    <span class="price">@Html.DisplayFor(modelItem => item.price)€<small>/ud.</small></span>
+                    </div>
+                <a class="link-product" href="@item.url" target="_blank">Ver producto</a>
+                </div>
+        </div>
+    }
+</div>
+<br /> 
+
+
+<hr />
+<h2>Mercadona</h2>
+<p>Aprovecha los últimos descuentos!</p>
+
+<div class="grid-container">
+    @foreach (var item in Model.CarrefourOffers)
+    {
+        <div class="grid-item">
+            <img class="product-image" src="@item.imageUrl" alt="@item.title">
+            <div class="product-info">
+                <h3 class="product-title">@Html.DisplayFor(modelItem => item.title)</h3>
+                <div class="prices-field">
+                    <span class="original-price">@Html.DisplayFor(modelItem => item.unitPrice)€</span>
+                    <span class="price">@Html.DisplayFor(modelItem => item.price)€<small>/ud.</small></span>
+                </div>
+                <a class="link-product" href="@item.url" target="_blank">Ver producto</a>
+            </div>
+        </div>
+    }
+</div>
+<br /> 
