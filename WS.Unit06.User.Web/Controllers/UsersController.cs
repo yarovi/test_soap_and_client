@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using System.ServiceModel;
 using WSClient.ApplicationWS;
 
 namespace WS.Unit06.User.Web.Controllers
@@ -7,12 +8,19 @@ namespace WS.Unit06.User.Web.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationServicesClient _client;
-        public UsersController() { _client = new ApplicationServicesClient(); }
+
+        public UsersController(IConfiguration configuration)
+        {
+            var configuration1 = configuration;
+            var globalenv = configuration1["APP_SERVICE_URL"] ?? configuration1["WebSettings:AppServiceURL"];
+            Console.WriteLine("Global app is: " + globalenv);
+            _client = new ApplicationServicesClient(new BasicHttpBinding(), new EndpointAddress(globalenv));
+        }
         public IActionResult Index()
         {
             var token = HttpContext.Session.GetString("token");
             if (string.IsNullOrEmpty(token))
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Home"); 
             return View(_client.getUsersAsync().Result);
         }
         public IActionResult ManageUser(int? id)

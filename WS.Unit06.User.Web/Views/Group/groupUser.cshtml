@@ -120,7 +120,7 @@ else
 			})
 			.then(data => {
 				console.log(data);
-				if (Array.isArray(data)) {
+				if (Array.isArray(data) && data.length > 0) {
 					var jsonString = JSON.stringify(data);
 					console.log('IDs de usuarios asociados:', data);
 					showAlertMessage("La operación con ID " + jsonString + " fue ejecutada exitosamente.", "success");
@@ -128,6 +128,10 @@ else
 					tbody.innerHTML = '';
 				} else {
 					console.log('Mensaje del servidor:', data);
+					if (data.length == 0){
+						showAlertMessage("Usuario ya existe en el grupo", "success");
+						showGroupUser();
+					}
 					showAlertMessage(data, "error");
 				}
 			})

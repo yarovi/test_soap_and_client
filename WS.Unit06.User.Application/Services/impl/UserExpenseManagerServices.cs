@@ -7,6 +7,7 @@ using WS.Unit06.User.Application.util;
 using WS.Unit06.User.Application.Model;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace WS.Unit06.User.Application.Services.impl
 {
@@ -16,19 +17,23 @@ namespace WS.Unit06.User.Application.Services.impl
 		public HttpContext httpContext { get; set; }
 		int userId { get; set; }
 		string nameFull { get; set; }
-		public UserExpenseManagerServices()
-		{
-			// TODO: esto hago porque no me este jalando por defecto.
-			IConfiguration config = new ConfigurationBuilder()
-			.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-			.Build();
-			GlobalSetting.ApiUrl = config.GetValue<string>("WebSettings:AppEndPoint");
-			/*var options = new RestClientOptions
-            (_configuration.GetValue<string>("WebSettings:AppEndPoint"));
+        private readonly IConfiguration _configuration;
+        public UserExpenseManagerServices(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            var globalenv = _configuration["EXPENSE_SERVICE_URL"] ?? _configuration["WebSettings:ExpenseServiceURL"];
+			Console.WriteLine("Expense URL constructor: " + globalenv);
+
+            GlobalSetting.ApiUrl = globalenv;
+
+
+            Console.WriteLine("URL constructor: "+GlobalSetting.ApiUrl);
+            /*var options = new RestClientOptions
+            (_configuration.GetValue<string>("WebSettings:ExpenseServiceURL"));
             options.RemoteCertificateValidationCallback =
                                (sender, certificate, chain, sslPolicyErrors) => true;
             _restClient = new RestClient(options);*/
-			_restClient = new RestClient(GlobalSetting.ApiUrl);
+            _restClient = new RestClient(GlobalSetting.ApiUrl);
 		}
 
 		public int createGroup(string name)
@@ -96,6 +101,14 @@ namespace WS.Unit06.User.Application.Services.impl
 				idsLocal.Add(userId);
 				request.AddJsonBody(idsLocal);
 				dynamic response = _restClient.ExecuteAsync(request).Result;
+				Console.WriteLine("RESPONSE: "+response);
+
+				if (!response.IsSuccessStatusCode)
+				{
+					
+					Console.WriteLine($"Error: {response.StatusCode}");
+					return Array.Empty<int>(); 
+				}
 
 				if (response != null && response.Content != null)
 				{
@@ -290,8 +303,12 @@ namespace WS.Unit06.User.Application.Services.impl
 
 		private bool validateToken()
 		{
-			var clientAuth = new WSAuthClientSOAP.AuthServicesClient();
-			using (var scope = new OperationContextScope(clientAuth.InnerChannel))
+            //var clientAuth = new WSAuthClientSOAP.AuthServicesClient(); 
+            var globalenv = _configuration["AUTH_SERVICE_URL"] ?? _configuration.GetValue<string>("WebSettings:AuthServiceURL");
+            Console.WriteLine("Auth URL validateToken(): " + globalenv);
+			 
+			var clientAuth = new WSAuthClientSOAP.AuthServicesClient(new BasicHttpBinding(), new EndpointAddress(globalenv));
+            using (var scope = new OperationContextScope(clientAuth.InnerChannel))
 			{
 				HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
 				httpRequestProperty.Headers["token"] = httpContext.Request.Headers["token"];

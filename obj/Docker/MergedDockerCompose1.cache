@@ -1,0 +1,459 @@
+name: dockercompose14535534638768300302
+services:
+  expense:
+    environment:
+      SERVER_BASE-URL: http://expense:8080/ws.pgg.rest.transactions
+    expose:
+      - "8080"
+    image: di.smdev.host/pgg_expense:1.0.2
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: h2_data
+        target: /usr/local/tomcat/data
+        volume: {}
+  external:
+    environment:
+      APP_LINKS_CARREFOUR_LIMIT: "3"
+      APP_LINKS_MERCADONA_LIMIT: "10"
+      APP_SELENIUMHOST: http://178.16.129.51:4444/wd/hub
+    expose:
+      - "8080"
+    image: di.smdev.host/pgg_external:latest
+    networks:
+      default: null
+    volumes:
+      - type: volume
+        source: external_cache_vol
+        target: /opt/external/data
+        volume: {}
+  ws.unit06.user.app:
+    build:
+      context: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+      dockerfile: WS.Unit06.User.Application/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: WS.Unit06.User.Application
+      target: base
+    container_name: WS.Unit06.User.Application
+    depends_on:
+      ws.unit06.user.auth:
+        condition: service_started
+        required: true
+      ws.unit06.user.data:
+        condition: service_started
+        required: true
+    entrypoint:
+      - tail
+      - -f
+      - /dev/null
+    environment:
+      ASPNETCORE_AUTH_SERVICE_URL: http://ws.unit06.user.auth:9093/AuthServices.svc
+      ASPNETCORE_DATA_SERVICE_URL: http://ws.unit06.user.data:9090/DataServices.svc
+      ASPNETCORE_EXPENSE_SERVICE_URL: http://expense:8080/ws.pgg.rest.transactions
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_OFFERS_SERVICE_URL: http://external:8080/api/v1
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+      WebSettings__AuthServiceURL: http://ws.unit06.user.auth:9093/AuthServices.svc
+      WebSettings__DataServiceURL: http://ws.unit06.user.data:9090/DataServices.svc
+    expose:
+      - "9091"
+    image: wsunit06userapplication:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages  "/app/bin/Debug/net7.0/WS.Unit06.User.Application.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    tty: true
+    volumes:
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\WS.Unit06.User.Application
+        target: /app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+        target: /src
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\vsdbg\vs2017u5
+        target: /remote_debugger
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\.nuget\packages\
+        target: /.nuget/packages
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
+        target: /TokenService.Proxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net7.0
+        target: /HotReloadProxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        target: /HotReloadAgent
+        read_only: true
+        bind:
+          create_host_path: true
+  ws.unit06.user.auth:
+    build:
+      context: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+      dockerfile: WS.Unit06.User.Auth/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: WS.Unit06.User.Auth
+      target: base
+    container_name: WS.Unit06.User.Auth
+    depends_on:
+      ws.unit06.user.data:
+        condition: service_started
+        required: true
+    entrypoint:
+      - tail
+      - -f
+      - /dev/null
+    environment:
+      ASPNETCORE_DATA_SERVICE_URL: http://ws.unit06.user.data:9090/DataServices.svc
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+      WebSettings__DataServiceURL: http://ws.unit06.user.data:9090/DataServices.svc
+    expose:
+      - "9093"
+    image: wsunit06userauth:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages  "/app/bin/Debug/net7.0/WS.Unit06.User.Auth.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        protocol: tcp
+    tty: true
+    volumes:
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\WS.Unit06.User.Auth
+        target: /app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+        target: /src
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\vsdbg\vs2017u5
+        target: /remote_debugger
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\.nuget\packages\
+        target: /.nuget/packages
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
+        target: /TokenService.Proxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net7.0
+        target: /HotReloadProxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        target: /HotReloadAgent
+        read_only: true
+        bind:
+          create_host_path: true
+  ws.unit06.user.data:
+    build:
+      context: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+      dockerfile: WS.Unit06.User.Data/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: WS.Unit06.User.Data
+      target: base
+    container_name: WS.Unit06.User.Data
+    entrypoint:
+      - tail
+      - -f
+      - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    expose:
+      - "9090"
+    image: wsunit06userdata:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages  "/app/bin/Debug/net7.0/WS.Unit06.User.Data.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 80
+        protocol: tcp
+    tty: true
+    volumes:
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\WS.Unit06.User.Data
+        target: /app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+        target: /src
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\vsdbg\vs2017u5
+        target: /remote_debugger
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\.nuget\packages\
+        target: /.nuget/packages
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
+        target: /TokenService.Proxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net7.0
+        target: /HotReloadProxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        target: /HotReloadAgent
+        read_only: true
+        bind:
+          create_host_path: true
+  ws.unit06.user.web:
+    build:
+      context: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+      dockerfile: WS.Unit06.User.Web/Dockerfile
+      args:
+        BUILD_CONFIGURATION: Debug
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: WS.Unit06.User.Web
+      target: base
+    container_name: WS.Unit06.User.Web
+    depends_on:
+      ws.unit06.user.app:
+        condition: service_started
+        required: true
+      ws.unit06.user.auth:
+        condition: service_started
+        required: true
+    entrypoint:
+      - tail
+      - -f
+      - /dev/null
+    environment:
+      ASPNETCORE_APP_SERVICE_URL: http://ws.unit06.user.app:9091/ApplicationServices.svc
+      ASPNETCORE_AUTH_SERVICE_URL: http://ws.unit06.user.auth:9093/AuthServices.svc
+      ASPNETCORE_EXPENSE_SERVICE_URL: http://ws.unit06.user.app:9091/UserExpenseManagerServices.svc
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_OFFERS_SERVICE_URL: http://ws.unit06.user.app:9091/SupermarketOffertServices.svc
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+      WebSettings__AppServiceURL: http://ws.unit06.user.app:9091/ApplicationServices.svc
+      WebSettings__AuthServiceURL: http://ws.unit06.user.auth:9093/AuthServices.svc
+    expose:
+      - "80"
+    image: wsunit06userweb:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /.nuget/packages  "/app/bin/Debug/net7.0/WS.Unit06.User.Web.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+      - target: 80
+        published: "82"
+    tty: true
+    volumes:
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\WS.Unit06.User.Web
+        target: /app
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client
+        target: /src
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\vsdbg\vs2017u5
+        target: /remote_debugger
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\.nuget\packages\
+        target: /.nuget/packages
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /root/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/ASP.NET/Https
+        target: /home/app/.aspnet/https
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /root/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Users\dewda\AppData\Roaming/Microsoft/UserSecrets
+        target: /home/app/.microsoft/usersecrets
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\TokenService.Proxy\linux-x64\net7.0
+        target: /TokenService.Proxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Sdks\Microsoft.Docker.Sdk\tools\HotReloadProxy\linux-x64\net7.0
+        target: /HotReloadProxy
+        read_only: true
+        bind:
+          create_host_path: true
+      - type: bind
+        source: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\HotReload
+        target: /HotReloadAgent
+        read_only: true
+        bind:
+          create_host_path: true
+networks:
+  default:
+    name: dockercompose14535534638768300302_default
+volumes:
+  external_cache_vol:
+    name: dockercompose14535534638768300302_external_cache_vol
+  h2_data:
+    name: dockercompose14535534638768300302_h2_data

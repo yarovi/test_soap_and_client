@@ -1,0 +1,25 @@
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 9091
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["WS.Unit06.User.Application/WS.Unit06.User.Application.csproj", "WS.Unit06.User.Application/"]
+COPY ["WS.Unit06.User.Data/WS.Unit06.User.Data.csproj", "WS.Unit06.User.Data/"]
+COPY ["WS.Unit06.User.Auth/WS.Unit06.User.Auth.csproj", "WS.Unit06.User.Auth/"]
+RUN dotnet restore "./WS.Unit06.User.Application/WS.Unit06.User.Application.csproj"
+COPY . .
+WORKDIR "/src/WS.Unit06.User.Application"
+RUN dotnet build "./WS.Unit06.User.Application.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./WS.Unit06.User.Application.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "WS.Unit06.User.Application.dll"]

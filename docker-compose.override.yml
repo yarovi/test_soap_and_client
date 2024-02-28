@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  ws.unit06.user.data:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  ws.unit06.user.auth:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+

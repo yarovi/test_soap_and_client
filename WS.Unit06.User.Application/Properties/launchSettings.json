@@ -4,7 +4,11 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "EXPENSE_SERVICE_URL": "http://localhost:8080/ws.pgg.rest.transactions",
+        "OFFERS_SERVICE_URL": "http://localhost:8082/api/v1",
+        "AUTH_SERVICE_URL": "http://localhost:9093/AuthServices.svc",
+        "DATA_SERVICE_URL": "http://localhost:9090/DataServices.svc"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:9091/ApplicationServices.svc"
@@ -13,8 +17,27 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "EXPENSE_SERVICE_URL": "http://localhost:8080/ws.pgg.rest.transactions",
+        "OFFERS_SERVICE_URL": "http://localhost:8082/api/v1",
+        "AUTH_SERVICE_URL": "http://localhost:9093/AuthServices.svc",
+        "DATA_SERVICE_URL": "http://localhost:9090/DataServices.svc"
       }
+    },
+    "Docker": {
+      "commandName": "Docker", 
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:9091",
+        "ASPNETCORE_HTTPS_PORT": "9091",
+        "EXPENSE_SERVICE_URL": "http://localhost:8080/ws.pgg.rest.transactions",
+        "OFFERS_SERVICE_URL": "http://localhost:8082/api/v1",
+        "AUTH_SERVICE_URL": "http://localhost:9093/AuthServices.svc",
+        "DATA_SERVICE_URL": "http://localhost:9090/DataServices.svc"
+      },
+      "httpPort": 9091,
+      "useSSL": false,
+      "sslPort": 44361
     }
   },
   "iisSettings": {

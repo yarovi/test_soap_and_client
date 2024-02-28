@@ -4,7 +4,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATA_SERVICE_URL": "http://localhost:9090/DataServices.svc"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:9093/AuthServices.svc"
@@ -13,16 +14,29 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATA_SERVICE_URL": "http://localhost:9090/DataServices.svc"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:9093",
+        "ASPNETCORE_HTTPS_PORT": "9093",
+        "DATA_SERVICE_URL": "http://localhost:9090/DataServices.svc"
+      },
+      "httpPort": 9093,
+      "useSSL": false,
+      "sslPort": 44363
     }
   },
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:4354",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:65347/",
+      "sslPort": 44385
     }
   }
 }

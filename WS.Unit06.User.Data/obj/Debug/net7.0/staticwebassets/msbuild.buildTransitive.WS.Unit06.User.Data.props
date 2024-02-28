@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\WS.Unit06.User.Data.props" />
+</Project>

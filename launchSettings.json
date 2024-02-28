@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "ws.unit06.user.data": "StartDebugging",
+        "ws.unit06.user.auth": "StartDebugging"
+      }
+    }
+  }
+}

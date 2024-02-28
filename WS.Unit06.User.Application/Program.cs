@@ -8,7 +8,12 @@ internal class Program
 			.UseKestrel(x => x.AllowSynchronousIO = true)
 			.UseUrls("http://*:9091")
 			.UseContentRoot(Directory.GetCurrentDirectory())
-			.UseStartup<Startup>()
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", optional: true);
+            })
+            .UseStartup<Startup>()
 			.ConfigureLogging(x =>
 			{
 				x.AddDebug();

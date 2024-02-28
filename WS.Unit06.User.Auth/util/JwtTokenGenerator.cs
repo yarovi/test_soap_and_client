@@ -62,10 +62,12 @@ namespace WS.Unit06.User.Application.util
         }
         public string GenerateSecretKey()
         {
+            
             IConfiguration config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .Build();
             string value = config["JwtSetting:key"];
+            Console.WriteLine("TOKEN GENERATION");
             return value;
         }
     }

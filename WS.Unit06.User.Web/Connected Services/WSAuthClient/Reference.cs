@@ -13,14 +13,29 @@ namespace WSAuthClient
     
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ResponseCustom", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.util")]
     public partial class ResponseCustom : object
     {
         
+        private WSAuthClient.CustomClaim ClaimsField;
+        
         private int codeField;
         
         private string messageCustomField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public WSAuthClient.CustomClaim Claims
+        {
+            get
+            {
+                return this.ClaimsField;
+            }
+            set
+            {
+                this.ClaimsField = value;
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public int code
@@ -49,25 +64,68 @@ namespace WSAuthClient
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="CustomClaim", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Auth.util")]
+    public partial class CustomClaim : object
+    {
+        
+        private string TypeField;
+        
+        private string ValueField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Type
+        {
+            get
+            {
+                return this.TypeField;
+            }
+            set
+            {
+                this.TypeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Value
+        {
+            get
+            {
+                return this.ValueField;
+            }
+            set
+            {
+                this.ValueField = value;
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/auth/", ConfigurationName="WSAuthClient.IAuthServices")]
     public interface IAuthServices
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/authenticate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/authenticateResponse")]
+        WSAuthClient.ResponseCustom authenticate();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/authenticate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/authenticateResponse")]
         System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> authenticateAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/validate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/validateResponse")]
+        WSAuthClient.ResponseCustom validate();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IAuthServices/validate", ReplyAction="http://ws.unit06.user/auth/IAuthServices/validateResponse")]
         System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> validateAsync();
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     public interface IAuthServicesChannel : WSAuthClient.IAuthServices, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     public partial class AuthServicesClient : System.ServiceModel.ClientBase<WSAuthClient.IAuthServices>, WSAuthClient.IAuthServices
     {
         
@@ -111,9 +169,19 @@ namespace WSAuthClient
         {
         }
         
+        public WSAuthClient.ResponseCustom authenticate()
+        {
+            return base.Channel.authenticate();
+        }
+        
         public System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> authenticateAsync()
         {
             return base.Channel.authenticateAsync();
+        }
+        
+        public WSAuthClient.ResponseCustom validate()
+        {
+            return base.Channel.validate();
         }
         
         public System.Threading.Tasks.Task<WSAuthClient.ResponseCustom> validateAsync()

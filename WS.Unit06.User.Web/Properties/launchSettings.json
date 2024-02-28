@@ -4,7 +4,11 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "EXPENSE_SERVICE_URL": "http://localhost:9091/UserExpenseManagerServices.svc",
+        "APP_SERVICE_URL": "http://localhost:9091/ApplicationServices.svc",
+        "OFFERS_SERVICE_URL": "http://localhost:9091/SupermarketOffertServices.svc",
+        "AUTH_SERVICE_URL": "http://localhost:9093/AuthServices.svc"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:9092"
@@ -13,8 +17,28 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "EXPENSE_SERVICE_URL": "http://localhost:9091/UserExpenseManagerServices.svc",
+        "APP_SERVICE_URL": "http://localhost:9091/ApplicationServices.svc",
+        "OFFERS_SERVICE_URL": "http://localhost:9091/SupermarketOffertServices.svc",
+        "AUTH_SERVICE_URL": "http://localhost:9093/AuthServices.svc"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:80",
+        "ASPNETCORE_HTTPS_PORT": "80",
+        "EXPENSE_SERVICE_URL": "http://localhost:9091/UserExpenseManagerServices.svc",
+        "APP_SERVICE_URL": "http://localhost:9091/ApplicationServices.svc",
+        "OFFERS_SERVICE_URL": "http://localhost:9091/SupermarketOffertServices.svc",
+        "AUTH_SERVICE_URL": "http://localhost:9093/AuthServices.svc"
+      },
+      "httpPort": 80,
+      "useSSL": false,
+      "sslPort": 443
     }
   },
   "iisSettings": {

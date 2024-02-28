@@ -1,0 +1,98 @@
+version: '3.4'
+
+services:
+  ws.unit06.user.data:
+    image: wsunit06userdata:1.0.3
+    build:
+      context: .
+      dockerfile: WS.Unit06.User.Data/Dockerfile
+    expose:
+        - 9090
+    volumes:
+      - users_data:/app/data 
+
+
+  ws.unit06.user.auth:
+    image: wsunit06userauth:1.0.3
+    build:
+      context: .
+      dockerfile: WS.Unit06.User.Auth/Dockerfile
+    expose:
+        - 9093
+    environment: 
+      - WebSettings__DataServiceURL=http://ws.unit06.user.data:9090/DataServices.svc 
+      - ASPNETCORE_DATA_SERVICE_URL=http://ws.unit06.user.data:9090/DataServices.svc 
+
+    depends_on:
+     - ws.unit06.user.data
+  ws.unit06.user.app:
+    image: wsunit06userapplication:1.0.3
+    build:
+      context: .
+      dockerfile: WS.Unit06.User.Application/Dockerfile
+    expose:
+        - 9091 
+
+    depends_on:
+     - ws.unit06.user.data
+     - ws.unit06.user.auth 
+    environment: 
+      - WebSettings__DataServiceURL=http://ws.unit06.user.data:9090/DataServices.svc
+      - WebSettings__AuthServiceURL=http://ws.unit06.user.auth:9093/AuthServices.svc
+      - ASPNETCORE_DATA_SERVICE_URL=http://ws.unit06.user.data:9090/DataServices.svc
+      - ASPNETCORE_AUTH_SERVICE_URL=http://ws.unit06.user.auth:9093/AuthServices.svc
+      - ASPNETCORE_EXPENSE_SERVICE_URL=http://expense:8080/ws.pgg.rest.transactions 
+      - ASPNETCORE_OFFERS_SERVICE_URL=http://external:8080/api/v1
+
+  ws.unit06.user.web:
+    image: wsunit06userweb:1.0.3
+    build:
+      context: .
+      dockerfile: WS.Unit06.User.Web/Dockerfile
+    expose:
+        - 80 
+    ports:
+    - published: 82
+      target: 80 
+    depends_on:
+     - ws.unit06.user.app
+     - ws.unit06.user.auth 
+    environment: 
+      - WebSettings__AppServiceURL=http://ws.unit06.user.app:9091/ApplicationServices.svc
+      - WebSettings__AuthServiceURL=http://ws.unit06.user.auth:9093/AuthServices.svc
+      - ASPNETCORE_APP_SERVICE_URL=http://ws.unit06.user.app:9091/ApplicationServices.svc
+      - ASPNETCORE_AUTH_SERVICE_URL=http://ws.unit06.user.auth:9093/AuthServices.svc 
+      - ASPNETCORE_EXPENSE_SERVICE_URL=http://ws.unit06.user.app:9091/UserExpenseManagerServices.svc
+      - ASPNETCORE_OFFERS_SERVICE_URL=http://ws.unit06.user.app:9091/SupermarketOffertServices.svc
+ 
+  expense: 
+    image: di.smdev.host/pgg_expense:1.0.2 
+    expose:
+    - 8080 
+    environment:
+        #- SPRING_DATASOURCE_URL=jdbc:h2:file:./data/db12
+        #- SPRING_DATASOURCE_USERNAME=sa
+        #- SPRING_DATASOURCE_PASSWORD=test
+        - SERVER_BASE-URL=http://expense:8080/ws.pgg.rest.transactions
+    volumes:
+      - h2_data:/usr/local/tomcat/data
+  external: 
+    image: di.smdev.host/pgg_external:latest
+    expose:
+    - 8080 
+    volumes:
+      - external_cache_vol:/opt/external/data
+    environment:
+      APP_LINKS_CARREFOUR_LIMIT: 3
+      APP_LINKS_MERCADONA_LIMIT: 10
+      APP_SELENIUMHOST: "http://178.16.129.51:4444/wd/hub"
+      #APP_LINK_CARREFOUR: "URL"
+      #APP_LINK_MERCADONA: "URL"
+      #APP_ENABLE_MERCADONA: "true"
+      #APP_ENABLE_CARREFOUR: "true"
+
+
+volumes:
+  h2_data:
+  external_cache_vol:
+  users_data:

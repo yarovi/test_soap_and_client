@@ -15,6 +15,17 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker", 
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://+:9090",
+        "ASPNETCORE_HTTPS_PORT": "9090"
+      },
+      "httpPort": 9090,
+      "useSSL": false,
+      "sslPort": 44360
     }
   },
   "iisSettings": {

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using RestSharp;
 using System.Net.Mime;
 using WS.Unit06.User.Application.Model;
@@ -10,13 +11,13 @@ namespace WS.Unit06.User.Application.Services.impl
     {
         private RestClient _restClient;
 
-        public SupermarketOffersServices()
+        public SupermarketOffersServices(IConfiguration configuration)
         {
-            // TODO: esto hago porque no me este jalando por defecto.
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-            GlobalSetting.ExternalApiUrl = config.GetValue<string>("WebSettings:AppExternalEndPoint"); 
+            var configuration1 = configuration;
+            var globalenv = configuration1["OFFERS_SERVICE_URL"] ?? configuration1.GetValue<string>("WebSettings:OffersServiceURL");
+            Console.WriteLine("Offers URL constructor: " + globalenv);
+
+            GlobalSetting.ExternalApiUrl = globalenv;
 
             _restClient = new RestClient(GlobalSetting.ExternalApiUrl);
 
@@ -24,7 +25,7 @@ namespace WS.Unit06.User.Application.Services.impl
 
         public List<MercadonaDTO> getAllMercadonaOffers()
         {
-            var request = new RestRequest("/offert-mercadona", Method.Get);
+            var request = new RestRequest("/offers-mercadona", Method.Get);
 
             request.AddHeader("Accept", MediaTypeNames.Application.Json);
             dynamic response = _restClient.ExecuteAsync(request).Result;
@@ -47,7 +48,7 @@ namespace WS.Unit06.User.Application.Services.impl
         }
         public List<CarrefourDTO> getAllCarrefourOffers()
         {
-            var request = new RestRequest("/offert-carrefour", Method.Get);
+            var request = new RestRequest("/offers-carrefour", Method.Get);
 
             request.AddHeader("Accept", MediaTypeNames.Application.Json);
             dynamic response = _restClient.ExecuteAsync(request).Result;

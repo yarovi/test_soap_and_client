@@ -62,6 +62,7 @@ namespace WS.Unit06.User.Data.Service.impl
             {
                 var user = factory.UserDAO.All().
                     FirstOrDefault(p => p.Username==name && p.Password==password);
+                Console.WriteLine("user is: "+user);
                 return user != null ? user : null!;
             }
         }

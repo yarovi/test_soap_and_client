@@ -1,13 +1,30 @@
 ﻿
-using WS.Unit06.User.Application.util;
+using WS.Unit06.User.Application.util; 
 using System.Net;
 using WSDataUser;
+using System.ServiceModel;
+using Microsoft.Extensions.Configuration;
 
 namespace WS.Unit06.User.Application.Services.impl
 {
     public class AuthServices : IAuthServices
     {
         public HttpContext httpContext { get; set; }
+        private readonly DataServicesClient _clientData;
+        private readonly IConfiguration Configuration;
+
+        public AuthServices(IConfiguration configuration)
+        {
+           //var configuration1 = configuration;
+            Configuration = configuration;
+            // IConfiguration config = new ConfigurationBuilder()
+            //   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            // .Build();
+
+            var globalEnv = Configuration["DATA_SERVICE_URL"] ?? Configuration["WebSettings:DataServiceURL"];  
+            Console.WriteLine("Env constructor: " + globalEnv + "---"+globalEnv);
+            _clientData = new DataServicesClient(new BasicHttpBinding(), new EndpointAddress(globalEnv));
+        }
 
         public ResponseCustom authenticate()
         {
@@ -16,8 +33,16 @@ namespace WS.Unit06.User.Application.Services.impl
             var response = new ResponseCustom();
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
             {
-                IDataServices dataws = new DataServicesClient();
-                Users user = dataws.GetUserByNameAndPassowrdAsync(username, password).Result;
+
+                //IConfiguration config2 = new ConfigurationBuilder()
+                //  .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                //.Build();
+
+                // _configuration["DataServiceURL"] ?? 
+                var globalEnv = Configuration["DATA_SERVICE_URL"] ?? Configuration["WebSettings:DataServiceURL"];
+                Console.WriteLine("Env authentificate(): " + globalEnv + "---" + globalEnv); 
+                Console.WriteLine($"username:{username}");
+                Users user = _clientData.GetUserByNameAndPassowrdAsync(username, password).Result;
 
                 if (user != null)
                 {

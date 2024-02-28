@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using WS.Unit06.User.Application.Services;
 using WS.Unit06.User.Application.Services.impl;
 using System.ServiceModel;
-using WS.Unit06.User.Application.util;
+using WS.Unit06.User.Application.util; 
 namespace WS.Unit06.User.Auth
 {
     public class Startup

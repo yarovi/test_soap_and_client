@@ -1,0 +1,68 @@
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Application.deps.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Application.runtimeconfig.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\appsettings.Development.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\appsettings.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSAuthClientSOAP\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSClient.Data.WS\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Application.exe
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Auth.deps.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Auth.runtimeconfig.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSDataUser\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Auth.exe
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Data.deps.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Data.runtimeconfig.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Data.exe
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Web.deps.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Web.runtimeconfig.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSAuthClient\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSClient.ApplicationWS\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSClient.SupermarketOffers\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Connected Services\WSUseExpenseManagerClient\ConnectedService.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Web.staticwebassets.runtime.json
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Web.exe
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\data\database.db
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Application.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Auth.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Data.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Web.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\System.ServiceModel.Primitives.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\SoapCore.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\RestSharp.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\System.ServiceModel.Http.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Newtonsoft.Json.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.EntityFrameworkCore.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.EntityFrameworkCore.Sqlite.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\BCrypt.Net-Next.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\System.Private.ServiceModel.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\System.CodeDom.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.IdentityModel.Logging.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.Data.Sqlite.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.Extensions.DependencyModel.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\SQLitePCLRaw.core.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Application.pdb
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Auth.pdb
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Data.pdb
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\WS.Unit06.User.Web.pdb
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\cs\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\de\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\es\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\fr\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\it\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\ja\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\ko\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\pl\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\pt-BR\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\ru\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\tr\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\zh-Hans\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\bin\Debug\zh-Hant\System.Private.ServiceModel.resources.dll
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
+C:\Users\dewda\Source\Repos\pgg_v2\yarovi\test_soap_and_client\obj\Debug\docker-c.35A3FFBA.Up2Date
