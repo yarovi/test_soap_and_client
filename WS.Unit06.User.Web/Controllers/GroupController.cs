@@ -18,6 +18,7 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		private SelectedUsers? selectedUsers;
 		GroupDTO[] groupDTOs;
 		UserDTO[] userDTOs;
+        GroupDTO[] groupDTOWitOutAssignations;
 
         private IConfiguration _configuration;
         private readonly UserExpenseManagerServicesClient _clientExpense;
@@ -43,8 +44,10 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
             var clientUser = new ApplicationServicesClient(new BasicHttpBinding(), new EndpointAddress(globalenv2));
 
             userDTOs = clientUser.getUsersAsync().Result;
+            groupDTOWitOutAssignations = _clientExpense.unassignedGroupAsync().Result;
 
-		}
+
+        }
 		public IActionResult indexGroup()
 		{
 			//var client = new wsClientExpense.UserExpenseManagerServicesClient();
@@ -83,8 +86,9 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		{
 			string username = HttpContext.Session.GetString("username");
 			bool isOwner = BitConverter.ToBoolean(HttpContext.Session.Get("isOwner"));
-			userDTOs = userDTOs.Where(user => user.Name != username).ToArray();
-			var CustomDtos = new
+			groupDTOs = groupDTOWitOutAssignations;
+            userDTOs = userDTOs.Where(user => user.Name != username).ToArray();
+            var CustomDtos = new
 			{
 				userDTOs,
 				groupDTOs,

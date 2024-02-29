@@ -9,5 +9,7 @@
         public string individualTotal { get; set; }
         public string expense { get; set; }
 
+        public string description { get; set; }
+
     }
 }

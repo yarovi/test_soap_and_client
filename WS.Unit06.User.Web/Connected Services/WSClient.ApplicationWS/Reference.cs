@@ -94,43 +94,6 @@ namespace WSClient.ApplicationWS
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResponseCustom", Namespace="http://schemas.datacontract.org/2004/07/WS.Unit06.User.Application.util")]
-    public partial class ResponseCustom : object
-    {
-        
-        private int codeField;
-        
-        private string messageCustomField;
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int code
-        {
-            get
-            {
-                return this.codeField;
-            }
-            set
-            {
-                this.codeField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string messageCustom
-        {
-            get
-            {
-                return this.messageCustomField;
-            }
-            set
-            {
-                this.messageCustomField = value;
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://ws.unit06.user/application/", ConfigurationName="WSClient.ApplicationWS.IApplicationServices")]
     public interface IApplicationServices
@@ -154,8 +117,8 @@ namespace WSClient.ApplicationWS
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/application/IApplicationServices/DeleteUser", ReplyAction="http://ws.unit06.user/application/IApplicationServices/DeleteUserResponse")]
         System.Threading.Tasks.Task DeleteUserAsync(int id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/application/IApplicationServices/validate", ReplyAction="http://ws.unit06.user/application/IApplicationServices/validateResponse")]
-        System.Threading.Tasks.Task<WSClient.ApplicationWS.ResponseCustom> validateAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/application/IApplicationServices/GetOneUser", ReplyAction="http://ws.unit06.user/application/IApplicationServices/GetOneUserResponse")]
+        System.Threading.Tasks.Task<WSClient.ApplicationWS.UserDTO> GetOneUserAsync(string name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -238,9 +201,9 @@ namespace WSClient.ApplicationWS
             return base.Channel.DeleteUserAsync(id);
         }
         
-        public System.Threading.Tasks.Task<WSClient.ApplicationWS.ResponseCustom> validateAsync()
+        public System.Threading.Tasks.Task<WSClient.ApplicationWS.UserDTO> GetOneUserAsync(string name)
         {
-            return base.Channel.validateAsync();
+            return base.Channel.GetOneUserAsync(name);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

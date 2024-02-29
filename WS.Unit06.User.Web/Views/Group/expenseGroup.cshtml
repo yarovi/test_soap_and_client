@@ -44,6 +44,7 @@
 			<th>ID</th>
 			<th>Grupo</th>
 			<th>Usuario</th>
+			<th>Description</th>
 			<th>Total Individual</th>
 			<th>Gasto</th>
 		</tr>
@@ -85,6 +86,8 @@
 
 			var celdaNombreUsuario = fila.insertCell();
 			celdaNombreUsuario.innerHTML = historial.nameUser;
+			var celdaDescription = fila.insertCell();
+			celdaDescription.innerHTML = historial.description;
 
 			var celdaTotalIndividual = fila.insertCell();
 			celdaTotalIndividual.innerHTML = historial.individualTotal;

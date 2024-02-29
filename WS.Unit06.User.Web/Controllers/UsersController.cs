@@ -20,8 +20,11 @@ namespace WS.Unit06.User.Web.Controllers
         {
             var token = HttpContext.Session.GetString("token");
             if (string.IsNullOrEmpty(token))
-                return RedirectToAction("Error", "Home"); 
-            return View(_client.getUsersAsync().Result);
+                return RedirectToAction("Error", "Home");
+			var username = HttpContext.Session.GetString("username");
+			if (string.IsNullOrEmpty(username))
+				return RedirectToAction("Error", "Home");
+			return View( _client.GetOneUserAsync(username).Result );
         }
         public IActionResult ManageUser(int? id)
         {

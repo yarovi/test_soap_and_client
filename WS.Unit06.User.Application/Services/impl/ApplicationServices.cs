@@ -85,5 +85,9 @@ namespace WS.Unit06.User.Application.Services.impl
             _dataClient.DeleteUserAsync(id);
         }
 
-    }
+		public UserDTO GetOneUser(string name)
+		{
+            return MapUserToDTO(_dataClient.GetOneUserAsync(name).Result);
+		}
+	}
 }

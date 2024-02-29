@@ -122,6 +122,8 @@ namespace WSUseExpenseManagerClient
     public partial class HistoryDTO : object
     {
         
+        private string descriptionField;
+        
         private string expenseField;
         
         private int idHistoryField;
@@ -131,6 +133,19 @@ namespace WSUseExpenseManagerClient
         private string nameGroupField;
         
         private string nameUserField;
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string description
+        {
+            get
+            {
+                return this.descriptionField;
+            }
+            set
+            {
+                this.descriptionField = value;
+            }
+        }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public string expense
@@ -232,6 +247,9 @@ namespace WSUseExpenseManagerClient
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/isOwner", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/isOwnerResponse")]
         System.Threading.Tasks.Task<bool> isOwnerAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ws.unit06.user/auth/IUserExpenseManagerServices/unassignedGroup", ReplyAction="http://ws.unit06.user/auth/IUserExpenseManagerServices/unassignedGroupResponse")]
+        System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> unassignedGroupAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -327,6 +345,11 @@ namespace WSUseExpenseManagerClient
         public System.Threading.Tasks.Task<bool> isOwnerAsync()
         {
             return base.Channel.isOwnerAsync();
+        }
+        
+        public System.Threading.Tasks.Task<WSUseExpenseManagerClient.GroupDTO[]> unassignedGroupAsync()
+        {
+            return base.Channel.unassignedGroupAsync();
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

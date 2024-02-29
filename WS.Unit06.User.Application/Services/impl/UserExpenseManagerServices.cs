@@ -132,8 +132,8 @@ namespace WS.Unit06.User.Application.Services.impl
 			List<UserGroupDTO> userGroups = new List<UserGroupDTO>();
 			if (validateToken())
 			{
-				var request = new RestRequest("/api/user-groups", Method.Get);
-				request.AddParameter("idUser", userId, ParameterType.UrlSegment);
+                var request = new RestRequest("/api/user-groups", Method.Get);
+                request.AddParameter("idUser", userId, ParameterType.UrlSegment);
 				dynamic response = _restClient.ExecuteAsync(request).Result;
 				if (response.IsSuccessStatusCode)
 				{
@@ -272,7 +272,8 @@ namespace WS.Unit06.User.Application.Services.impl
 						nameGroup = history.details.userGroup.groupCategory.name,
 						nameUser = history.details.userGroup.userId.ToString(),
 						individualTotal = history.total.ToString(),
-						expense = history.details.transaction.expense.ToString()
+						expense = history.details.transaction.expense.ToString(),
+						description=history.details.transaction.description
 					};
 
 					mappedHistoryList.Add(historyDTO);
@@ -327,10 +328,30 @@ namespace WS.Unit06.User.Application.Services.impl
 					return false;
 			}
 		}
-		
 
-
-	}
+        public GroupDTO[] unassignedGroup()
+        {
+            var request = new RestRequest("/api/groups/unassigned", Method.Get);
+            request.AddHeader("Accept", MediaTypeNames.Application.Json);
+            dynamic response = _restClient.ExecuteAsync(request).Result;
+            List<GroupDTO> userGroups = new List<GroupDTO>();
+            if (response.IsSuccessStatusCode)
+            {
+                var content = response.Content;
+                List<dynamic> gropus = JsonConvert.DeserializeObject<List<dynamic>>(content);
+                foreach (var g in gropus)
+                {
+                    GroupDTO groupDTO = new GroupDTO
+                    {
+                        Id = g.idGroupCategory,
+                        Name = g.name,
+                    };
+                    userGroups.Add(groupDTO);
+                }
+            }
+            return userGroups.ToArray();
+        }
+    }
 
 
 }
