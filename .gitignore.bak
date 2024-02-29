@@ -12,5 +12,5 @@
 /WS.Unit06.User.Auth/bin
 /WS.Unit06.User.Data/obj
 
-/obj/Debug
-/bin/Debug
+obj/Debug
+bin/Debug

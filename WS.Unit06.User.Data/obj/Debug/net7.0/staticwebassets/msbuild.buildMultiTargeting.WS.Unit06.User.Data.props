@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\WS.Unit06.User.Data.props" />
-</Project>
