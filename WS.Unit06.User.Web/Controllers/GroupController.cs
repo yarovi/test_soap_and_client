@@ -82,11 +82,13 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 		//----------------------------------------------------------------------
 		//----------------------------GROUP-USER
 		//----------------------------------------------------------------------
-		public IActionResult indexGroupUser()
+		
+        /*public IActionResult indexGroupUser()
 		{
 			string username = HttpContext.Session.GetString("username");
 			bool isOwner = BitConverter.ToBoolean(HttpContext.Session.Get("isOwner"));
 			groupDTOs = groupDTOWitOutAssignations;
+            var _groupDTOs = getAllGroupUserByUserId();
             userDTOs = userDTOs.Where(user => user.Name != username).ToArray();
             var CustomDtos = new
 			{
@@ -94,10 +96,50 @@ namespace Web.Mvc.Formulario.Gastos.Controllers
 				groupDTOs,
 				isOwner
 			};
+			Console.WriteLine("Actual user groups: " + _groupDTOs);
 			return View("groupUser", CustomDtos);
 		}
+		*/
 
-		[HttpPost]
+        public async Task<IActionResult> indexGroupUser()
+        {
+            var client = _clientExpense; // Asume que esto está correctamente inicializado en tu clase
+            string username = HttpContext.Session.GetString("username");
+            bool isOwner = BitConverter.ToBoolean(HttpContext.Session.Get("isOwner"));
+
+            string token = HttpContext.Session.GetString("token");
+            using (var scope = new OperationContextScope(client.InnerChannel))
+            {
+                HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty();
+                httpRequestProperty.Headers["token"] = token;
+                OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = httpRequestProperty;
+
+                // Recuperar grupos de usuarios asociados con el usuario actual
+               // UserGroupDTO[] _groupDTOs = await client.getUserGroupsByUserIdAsync();
+
+                var _groupDTOs = await client.getAllGroupByUserAsync();
+                var _userDTOs = userDTOs.Where(user => user.Name != username).ToArray();
+
+                Console.WriteLine("Groups: "+ _groupDTOs);
+                // La lógica para ajustar los DTOs basada en el contexto específico de tu aplicación se omite aquí
+
+                // Filtrar y preparar cualquier otro DTO necesario para la vista, como se requiere
+                // Asumiendo que `userDTOs` se ajusta en otra parte si es necesario
+
+                var customDtos = new
+                {
+                    userDTOs = _userDTOs,
+                    groupDTOs = _groupDTOs,
+                    isOwner
+                };
+
+                return View("groupUser", customDtos);
+            }
+        }
+		
+
+
+        [HttpPost]
 		public IActionResult AddUserToGroup(int idUser)
 		{
 			selectedUsers = GetSelectedUsersFromSession();

@@ -10,6 +10,7 @@
     "namespaceMappings": [
       "*, WSUseExpenseManagerClient"
     ],
+    "sync": true,
     "targetFramework": "net7.0",
     "typeReuseMode": "None"
   }

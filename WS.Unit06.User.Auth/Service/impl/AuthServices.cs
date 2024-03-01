@@ -69,6 +69,7 @@ namespace WS.Unit06.User.Application.Services.impl
             {
                 var tokenGenerator = new JwtTokenGenerator();
                 var claimsPrincipal = tokenGenerator.ValidateJwtToken(token);
+                Console.WriteLine("claims: " + claimsPrincipal);
                 if (claimsPrincipal != null && claimsPrincipal.Identity.IsAuthenticated)
                 {
                     response.code = 200;

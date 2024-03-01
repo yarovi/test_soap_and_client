@@ -40,7 +40,7 @@ namespace WS.Unit06.User.Application.Services.impl
 		{
 			var request = new RestRequest("/api/groups", Method.Post);
 			request.AddHeader("Accept", MediaTypeNames.Application.Json);
-			request.AddJsonBody(JsonConvert.SerializeObject(new { name }));
+			request.AddJsonBody(JsonConvert.SerializeObject(new { name,idMaster = userId }));
 			dynamic response = _restClient.ExecuteAsync(request).Result;
 			int codeReturn = 0;
 			if (response != null)
@@ -92,8 +92,8 @@ namespace WS.Unit06.User.Application.Services.impl
 		public int[] associateUserWithGroup(int[] ids, int groupId)
 		{
 			List<int> codesList = new List<int>();
-			if (validateToken())
-			{
+			//if (validateToken())
+			//{
 				var request = new RestRequest("/api/user-groups/{groupId}/users", Method.Post);
 				request.AddHeader("Accept", MediaTypeNames.Application.Json);
 				request.AddParameter("groupId", groupId, ParameterType.UrlSegment);
@@ -123,7 +123,7 @@ namespace WS.Unit06.User.Application.Services.impl
 					requestUpdate.AddParameter("newMasterId", userId, ParameterType.UrlSegment);
 					var responseUpdate = _restClient.ExecuteAsync(requestUpdate).Result;
 				}
-			}
+			//}
 
 			return codesList.ToArray();
 		}
@@ -146,8 +146,11 @@ namespace WS.Unit06.User.Application.Services.impl
 							Id = g.idUserGroup,
 							NameGroup = g.groupCategory.name,
 							fullNameUser = (g.userId),
+							userId = g.userId,
+							groupId = g.groupCategory.idGroupCategory
 
-						};
+
+                        };
 						userGroups.Add(userGroupDTO);
 					}
 				}
@@ -181,9 +184,11 @@ namespace WS.Unit06.User.Application.Services.impl
 		public GroupDTO[] getAllGroupByUser()
 		{
 			var userDTOs = new List<GroupDTO>();
-			if (validateToken())
-			{
-				var request = new RestRequest("/api/user-groups/{userId}/users", Method.Get);
+            //if (validateToken())
+            //{
+            
+
+            var request = new RestRequest("/api/user-groups/{userId}/users", Method.Get);
 				request.AddParameter("userId", userId, ParameterType.UrlSegment);
 				dynamic response = _restClient.ExecuteAsync(request).Result;
 
@@ -205,7 +210,7 @@ namespace WS.Unit06.User.Application.Services.impl
 					}
 					return userDTOs.ToArray();
 				}
-			}
+			//}
 			return userDTOs.ToArray();
 		}
 
