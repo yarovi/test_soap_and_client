@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WS.Unit06.User.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30ea7f5d1d896e489b7d28f0db23d4ea4750bfa2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d5e083ba7e872bbe4cc297ebbba820a116fe8d1")]
 [assembly: System.Reflection.AssemblyProductAttribute("WS.Unit06.User.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WS.Unit06.User.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
